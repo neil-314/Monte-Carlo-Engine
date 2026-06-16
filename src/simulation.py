@@ -41,3 +41,14 @@ def simulate_gbm(
 
 def terminal_price_statistics(
     terminal_prices: np.ndarray,
+    starting_price: float,
+    target_price: float,
+) -> dict[str, float]:
+    """Calculate summary statistics from simulated terminal prices."""
+    terminal_prices = np.asarray(terminal_prices)
+    return {
+        "starting_price": float(starting_price),
+        "mean_terminal_price": float(np.mean(terminal_prices)),
+        "median_terminal_price": float(np.median(terminal_prices)),
+        "terminal_std_dev": float(np.std(terminal_prices, ddof=1)),
+        "percentile_5": float(np.percentile(terminal_prices, 5)),
