@@ -30,3 +30,14 @@ def simulate_gbm(
 
     rng = np.random.default_rng(seed)
     dt = T / steps
+    shocks = rng.normal(0.0, 1.0, size=(steps, simulations))
+    log_returns = (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * shocks
+
+    paths = np.empty((steps + 1, simulations))
+    paths[0] = S0
+    paths[1:] = S0 * np.exp(np.cumsum(log_returns, axis=0))
+    return paths
+
+
+def terminal_price_statistics(
+    terminal_prices: np.ndarray,
