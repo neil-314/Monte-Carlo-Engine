@@ -52,3 +52,14 @@ def terminal_price_statistics(
         "median_terminal_price": float(np.median(terminal_prices)),
         "terminal_std_dev": float(np.std(terminal_prices, ddof=1)),
         "percentile_5": float(np.percentile(terminal_prices, 5)),
+        "percentile_95": float(np.percentile(terminal_prices, 95)),
+        "probability_loss": float(np.mean(terminal_prices < starting_price)),
+        "probability_above_target": float(np.mean(terminal_prices > target_price)),
+        "target_price": float(target_price),
+    }
+
+
+def plot_stock_paths(
+    paths: np.ndarray,
+    output_path: str | Path,
+    paths_to_plot: int = 100,
