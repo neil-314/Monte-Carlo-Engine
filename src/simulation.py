@@ -108,3 +108,15 @@ def plot_terminal_distribution(
         percentile_95,
         color="#54A24B",
         linestyle="--",
+        linewidth=2,
+        label=f"95th percentile: ${percentile_95:,.2f}",
+    )
+    plt.title("Terminal Stock Price Distribution")
+    plt.xlabel("Terminal Stock Price")
+    plt.ylabel("Frequency")
+    plt.grid(True, alpha=0.22)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+
