@@ -63,3 +63,15 @@ def plot_stock_paths(
     paths: np.ndarray,
     output_path: str | Path,
     paths_to_plot: int = 100,
+) -> None:
+    """Plot a subset of simulated paths and save the figure."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    sample_size = min(paths_to_plot, paths.shape[1])
+    days = np.arange(paths.shape[0])
+
+    plt.figure(figsize=(11, 6))
+    plt.plot(days, paths[:, :sample_size], linewidth=0.8, alpha=0.55)
+    plt.title("Monte Carlo Simulation of Stock Prices")
+    plt.xlabel("Trading Days")
