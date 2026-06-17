@@ -75,3 +75,14 @@ def plot_stock_paths(
     plt.plot(days, paths[:, :sample_size], linewidth=0.8, alpha=0.55)
     plt.title("Monte Carlo Simulation of Stock Prices")
     plt.xlabel("Trading Days")
+    plt.ylabel("Stock Price")
+    plt.grid(True, alpha=0.25)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+
+
+def plot_terminal_distribution(
+    terminal_prices: np.ndarray,
+    output_path: str | Path,
+) -> None:
