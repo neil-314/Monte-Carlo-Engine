@@ -86,3 +86,14 @@ def plot_terminal_distribution(
     terminal_prices: np.ndarray,
     output_path: str | Path,
 ) -> None:
+    """Plot a terminal stock-price histogram with key percentiles."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    mean_price = np.mean(terminal_prices)
+    percentile_5 = np.percentile(terminal_prices, 5)
+    percentile_95 = np.percentile(terminal_prices, 95)
+
+    plt.figure(figsize=(11, 6))
+    plt.hist(terminal_prices, bins=60, color="#4C78A8", alpha=0.82, edgecolor="white")
+    plt.axvline(mean_price, color="#F58518", linewidth=2, label=f"Mean: ${mean_price:,.2f}")
