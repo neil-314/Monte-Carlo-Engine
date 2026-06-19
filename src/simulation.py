@@ -97,3 +97,14 @@ def plot_terminal_distribution(
     plt.figure(figsize=(11, 6))
     plt.hist(terminal_prices, bins=60, color="#4C78A8", alpha=0.82, edgecolor="white")
     plt.axvline(mean_price, color="#F58518", linewidth=2, label=f"Mean: ${mean_price:,.2f}")
+    plt.axvline(
+        percentile_5,
+        color="#E45756",
+        linestyle="--",
+        linewidth=2,
+        label=f"5th percentile: ${percentile_5:,.2f}",
+    )
+    plt.axvline(
+        percentile_95,
+        color="#54A24B",
+        linestyle="--",
