@@ -131,3 +131,14 @@ Expected Terminal Price: ${stats["mean_terminal_price"]:,.2f}
 Median Terminal Price:   ${stats["median_terminal_price"]:,.2f}
 Terminal Std. Dev.:      ${stats["terminal_std_dev"]:,.2f}
 
+5th Percentile:          ${stats["percentile_5"]:,.2f}
+95th Percentile:         ${stats["percentile_95"]:,.2f}
+
+Probability of Loss:      {stats["probability_loss"]:.2%}
+Probability S(T) > ${stats["target_price"]:,.0f}: {stats["probability_above_target"]:.2%}
+""".strip()
+
+
+def main() -> None:
+    S0 = 100
+    mu = 0.08
