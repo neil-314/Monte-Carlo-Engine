@@ -120,3 +120,14 @@ def plot_terminal_distribution(
     plt.savefig(output_path, dpi=150)
     plt.close()
 
+
+def format_terminal_report(stats: dict[str, float]) -> str:
+    """Format terminal stock-price statistics for console output."""
+    return f"""
+MONTE CARLO RESULTS
+
+Starting Price:          ${stats["starting_price"]:,.2f}
+Expected Terminal Price: ${stats["mean_terminal_price"]:,.2f}
+Median Terminal Price:   ${stats["median_terminal_price"]:,.2f}
+Terminal Std. Dev.:      ${stats["terminal_std_dev"]:,.2f}
+
