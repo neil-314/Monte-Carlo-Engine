@@ -154,3 +154,14 @@ def main() -> None:
         T=T,
         steps=steps,
         simulations=simulations,
+        seed=42,
+    )
+    plot_stock_paths(paths, "results/stock_paths.png")
+    terminal_prices = paths[-1]
+    stats = terminal_price_statistics(
+        terminal_prices=terminal_prices,
+        starting_price=S0,
+        target_price=120,
+    )
+    plot_terminal_distribution(terminal_prices, "results/terminal_distribution.png")
+
