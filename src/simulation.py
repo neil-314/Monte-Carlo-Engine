@@ -142,3 +142,15 @@ Probability S(T) > ${stats["target_price"]:,.0f}: {stats["probability_above_targ
 def main() -> None:
     S0 = 100
     mu = 0.08
+    sigma = 0.20
+    T = 1
+    steps = 252
+    simulations = 10_000
+
+    paths = simulate_gbm(
+        S0=S0,
+        mu=mu,
+        sigma=sigma,
+        T=T,
+        steps=steps,
+        simulations=simulations,
