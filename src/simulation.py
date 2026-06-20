@@ -165,3 +165,11 @@ def main() -> None:
     )
     plot_terminal_distribution(terminal_prices, "results/terminal_distribution.png")
 
+    print("Saved stock path chart to results/stock_paths.png")
+    print("Saved terminal distribution chart to results/terminal_distribution.png")
+    print()
+    print(format_terminal_report(stats))
+
+
+if __name__ == "__main__":
+    main()
