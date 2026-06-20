@@ -35,3 +35,14 @@ def portfolio_risk_report(
 
     return {
         "initial_value": float(initial_value),
+        "expected_value": float(np.mean(portfolio_values)),
+        "expected_return": float(np.mean(portfolio_returns)),
+        "volatility": float(np.std(portfolio_returns, ddof=1)),
+        "probability_loss": float(np.mean(portfolio_returns < 0)),
+        "var_return": var_return,
+        "cvar_return": cvar_return,
+        "var_dollars": float(initial_value * var_return),
+        "cvar_dollars": float(initial_value * cvar_return),
+        "percentile_5_value": float(np.percentile(portfolio_values, 5)),
+        "median_value": float(np.median(portfolio_values)),
+        "percentile_95_value": float(np.percentile(portfolio_values, 95)),
