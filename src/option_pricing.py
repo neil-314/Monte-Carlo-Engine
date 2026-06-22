@@ -31,3 +31,14 @@ def simulate_terminal_prices(
     if sigma < 0:
         raise ValueError("sigma cannot be negative.")
     if T <= 0:
+        raise ValueError("T must be positive.")
+    if simulations <= 0:
+        raise ValueError("simulations must be positive.")
+
+    rng = np.random.default_rng(seed)
+    shocks = rng.normal(0.0, 1.0, simulations)
+    return S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * shocks)
+
+
+def monte_carlo_option_price(
+    S0: float,
