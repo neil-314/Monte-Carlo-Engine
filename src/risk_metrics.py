@@ -24,3 +24,14 @@ def calculate_cvar(returns: np.ndarray, confidence_level: float = 0.95) -> float
 def portfolio_risk_report(
     portfolio_values: np.ndarray,
     portfolio_returns: np.ndarray,
+    initial_value: float,
+    confidence_level: float = 0.95,
+) -> dict[str, float]:
+    """Calculate high-level risk statistics from simulated portfolio outcomes."""
+    portfolio_values = np.asarray(portfolio_values)
+    portfolio_returns = np.asarray(portfolio_returns)
+    var_return = calculate_var(portfolio_returns, confidence_level)
+    cvar_return = calculate_cvar(portfolio_returns, confidence_level)
+
+    return {
+        "initial_value": float(initial_value),
