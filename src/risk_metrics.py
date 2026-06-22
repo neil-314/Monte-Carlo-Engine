@@ -12,3 +12,15 @@ def calculate_var(returns: np.ndarray, confidence_level: float = 0.95) -> float:
 
 def calculate_cvar(returns: np.ndarray, confidence_level: float = 0.95) -> float:
     """Calculate return-based CVaR as the average return beyond VaR."""
+    var = calculate_var(returns, confidence_level)
+    tail_returns = returns[returns <= var]
+
+    if tail_returns.size == 0:
+        return var
+
+    return float(np.mean(tail_returns))
+
+
+def portfolio_risk_report(
+    portfolio_values: np.ndarray,
+    portfolio_returns: np.ndarray,
