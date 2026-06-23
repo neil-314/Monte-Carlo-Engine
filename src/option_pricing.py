@@ -65,3 +65,14 @@ def monte_carlo_option_price(
 def black_scholes_price(
     S0: float,
     K: float,
+    T: float,
+    r: float,
+    sigma: float,
+    option_type: OptionType = "call",
+) -> float:
+    """Calculate the analytical Black-Scholes price for a European option."""
+    _validate_option_type(option_type)
+    if S0 <= 0:
+        raise ValueError("S0 must be positive.")
+    if K <= 0:
+        raise ValueError("K must be positive.")
