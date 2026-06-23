@@ -20,3 +20,14 @@ def _validate_option_type(option_type: str) -> None:
 def simulate_terminal_prices(
     S0: float,
     r: float,
+    sigma: float,
+    T: float,
+    simulations: int,
+    seed: int | None = None,
+) -> np.ndarray:
+    """Simulate terminal stock prices under the risk-neutral measure."""
+    if S0 <= 0:
+        raise ValueError("S0 must be positive.")
+    if sigma < 0:
+        raise ValueError("sigma cannot be negative.")
+    if T <= 0:
