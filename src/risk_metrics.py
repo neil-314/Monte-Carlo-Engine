@@ -46,3 +46,4 @@ def portfolio_risk_report(
         "percentile_5_value": float(np.percentile(portfolio_values, 5)),
         "median_value": float(np.median(portfolio_values)),
         "percentile_95_value": float(np.percentile(portfolio_values, 95)),
+    }
