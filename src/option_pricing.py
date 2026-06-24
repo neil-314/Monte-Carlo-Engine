@@ -99,3 +99,14 @@ def black_scholes_price(
 
 
 def compare_option_prices(
+    S0: float,
+    K: float,
+    T: float,
+    r: float,
+    sigma: float,
+    simulations: int,
+    option_type: OptionType = "call",
+    seed: int | None = None,
+) -> dict[str, float]:
+    """Compare Monte Carlo and Black-Scholes prices for one option."""
+    mc_price = monte_carlo_option_price(S0, K, T, r, sigma, simulations, option_type, seed)
