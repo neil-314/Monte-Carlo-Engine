@@ -87,3 +87,15 @@ def black_scholes_price(
             payoff = max(forward_price - K, 0.0)
         else:
             payoff = max(K - forward_price, 0.0)
+        return float(np.exp(-r * T) * payoff)
+
+    d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+
+    if option_type == "call":
+        return float(S0 * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2))
+
+    return float(K * np.exp(-r * T) * norm.cdf(-d2) - S0 * norm.cdf(-d1))
+
+
+def compare_option_prices(
