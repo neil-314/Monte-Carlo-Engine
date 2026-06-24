@@ -42,3 +42,15 @@ def simulate_terminal_prices(
 
 def monte_carlo_option_price(
     S0: float,
+    K: float,
+    T: float,
+    r: float,
+    sigma: float,
+    simulations: int,
+    option_type: OptionType = "call",
+    seed: int | None = None,
+) -> float:
+    """Price a European option by discounting average simulated payoff."""
+    _validate_option_type(option_type)
+    terminal_prices = simulate_terminal_prices(S0, r, sigma, T, simulations, seed)
+
