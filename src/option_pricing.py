@@ -110,3 +110,14 @@ def compare_option_prices(
 ) -> dict[str, float]:
     """Compare Monte Carlo and Black-Scholes prices for one option."""
     mc_price = monte_carlo_option_price(S0, K, T, r, sigma, simulations, option_type, seed)
+    bs_price = black_scholes_price(S0, K, T, r, sigma, option_type)
+    absolute_difference = abs(mc_price - bs_price)
+    percentage_error = absolute_difference / bs_price if bs_price != 0 else 0.0
+
+    return {
+        "monte_carlo_price": mc_price,
+        "black_scholes_price": bs_price,
+        "absolute_difference": absolute_difference,
+        "percentage_error": percentage_error,
+    }
+
