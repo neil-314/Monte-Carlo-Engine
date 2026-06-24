@@ -54,3 +54,14 @@ def monte_carlo_option_price(
     _validate_option_type(option_type)
     terminal_prices = simulate_terminal_prices(S0, r, sigma, T, simulations, seed)
 
+    if option_type == "call":
+        payoffs = np.maximum(terminal_prices - K, 0.0)
+    else:
+        payoffs = np.maximum(K - terminal_prices, 0.0)
+
+    return float(np.exp(-r * T) * np.mean(payoffs))
+
+
+def black_scholes_price(
+    S0: float,
+    K: float,
