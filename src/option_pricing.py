@@ -132,3 +132,15 @@ def convergence_analysis(
     option_type: OptionType = "call",
     seed: int = 123,
 ) -> pd.DataFrame:
+    """Run option pricing at several simulation counts and measure error."""
+    rows = []
+    bs_price = black_scholes_price(S0, K, T, r, sigma, option_type)
+
+    for index, simulations in enumerate(simulation_counts):
+        mc_price = monte_carlo_option_price(
+            S0=S0,
+            K=K,
+            T=T,
+            r=r,
+            sigma=sigma,
+            simulations=simulations,
