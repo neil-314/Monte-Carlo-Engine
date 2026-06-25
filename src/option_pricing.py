@@ -76,3 +76,14 @@ def black_scholes_price(
         raise ValueError("S0 must be positive.")
     if K <= 0:
         raise ValueError("K must be positive.")
+    if T <= 0:
+        raise ValueError("T must be positive.")
+    if sigma < 0:
+        raise ValueError("sigma cannot be negative.")
+
+    if sigma == 0:
+        forward_price = S0 * np.exp(r * T)
+        if option_type == "call":
+            payoff = max(forward_price - K, 0.0)
+        else:
+            payoff = max(K - forward_price, 0.0)
