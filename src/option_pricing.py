@@ -166,3 +166,15 @@ def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
+    fig, (price_axis, error_axis) = plt.subplots(
+        2,
+        1,
+        figsize=(11, 8),
+        sharex=True,
+        gridspec_kw={"height_ratios": [2, 1]},
+    )
+
+    price_axis.plot(
+        convergence["simulations"],
+        convergence["monte_carlo_price"],
+        color="#4C78A8",
