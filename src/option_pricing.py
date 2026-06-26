@@ -121,3 +121,14 @@ def compare_option_prices(
         "percentage_error": percentage_error,
     }
 
+
+def convergence_analysis(
+    simulation_counts: list[int],
+    S0: float,
+    K: float,
+    T: float,
+    r: float,
+    sigma: float,
+    option_type: OptionType = "call",
+    seed: int = 123,
+) -> pd.DataFrame:
