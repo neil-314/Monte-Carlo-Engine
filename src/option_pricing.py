@@ -223,3 +223,14 @@ def format_option_report(
     call_comparison: dict[str, float],
     put_comparison: dict[str, float],
 ) -> str:
+    """Format option pricing results for console output."""
+    return f"""
+EUROPEAN OPTION PRICING
+
+Stock Price: ${S0:,.2f}
+Strike:      ${K:,.2f}
+Expiration:  {T:g} year
+Volatility:  {sigma:.0%}
+Risk-Free:   {r:.0%}
+Scenarios:   {simulations:,}
+
