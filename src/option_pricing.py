@@ -144,3 +144,14 @@ def convergence_analysis(
             r=r,
             sigma=sigma,
             simulations=simulations,
+            option_type=option_type,
+            seed=seed + index,
+        )
+        absolute_error = abs(mc_price - bs_price)
+        rows.append(
+            {
+                "simulations": simulations,
+                "monte_carlo_price": mc_price,
+                "black_scholes_price": bs_price,
+                "absolute_error": absolute_error,
+                "percentage_error": absolute_error / bs_price if bs_price != 0 else 0.0,
