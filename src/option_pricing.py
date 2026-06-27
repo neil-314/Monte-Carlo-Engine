@@ -155,3 +155,14 @@ def convergence_analysis(
                 "black_scholes_price": bs_price,
                 "absolute_error": absolute_error,
                 "percentage_error": absolute_error / bs_price if bs_price != 0 else 0.0,
+            }
+        )
+
+    return pd.DataFrame(rows)
+
+
+def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None:
+    """Plot Monte Carlo option convergence against Black-Scholes."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
