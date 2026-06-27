@@ -268,3 +268,8 @@ def main() -> None:
         option_type="call",
     )
     plot_convergence(convergence, "results/option_convergence.png")
+    print("\nSaved convergence chart to results/option_convergence.png")
+
+
+if __name__ == "__main__":
+    main()
