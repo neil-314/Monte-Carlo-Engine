@@ -245,3 +245,14 @@ Put Abs. Diff.:      ${put_comparison["absolute_difference"]:,.2f}
 Put % Error:          {put_comparison["percentage_error"]:.2%}
 """.strip()
 
+
+def main() -> None:
+    S0 = 100
+    K = 105
+    T = 1
+    r = 0.04
+    sigma = 0.20
+    simulations = 100_000
+
+    call_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "call", seed=7)
+    put_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "put", seed=11)
