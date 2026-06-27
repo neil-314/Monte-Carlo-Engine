@@ -178,3 +178,14 @@ def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None
         convergence["simulations"],
         convergence["monte_carlo_price"],
         color="#4C78A8",
+        marker="o",
+        linewidth=2,
+        label="Monte Carlo price",
+    )
+    price_axis.axhline(
+        convergence["black_scholes_price"].iloc[0],
+        color="#F58518",
+        linestyle="--",
+        linewidth=2,
+        label="Black-Scholes price",
+    )
