@@ -211,3 +211,15 @@ def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None
     fig.tight_layout()
     fig.savefig(output_path, dpi=150)
     plt.close(fig)
+
+
+def format_option_report(
+    S0: float,
+    K: float,
+    T: float,
+    r: float,
+    sigma: float,
+    simulations: int,
+    call_comparison: dict[str, float],
+    put_comparison: dict[str, float],
+) -> str:
