@@ -189,3 +189,14 @@ def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None
         linewidth=2,
         label="Black-Scholes price",
     )
+    price_axis.set_xscale("log")
+    price_axis.set_ylabel("Option Price")
+    price_axis.set_title("Monte Carlo Option Pricing Convergence")
+    price_axis.grid(True, alpha=0.25)
+    price_axis.legend()
+
+    error_axis.plot(
+        convergence["simulations"],
+        convergence["absolute_error"],
+        color="#E45756",
+        marker="o",
