@@ -200,3 +200,14 @@ def plot_convergence(convergence: pd.DataFrame, output_path: str | Path) -> None
         convergence["absolute_error"],
         color="#E45756",
         marker="o",
+        linewidth=2,
+        label="Absolute error",
+    )
+    error_axis.set_xscale("log")
+    error_axis.set_xlabel("Number of Simulations")
+    error_axis.set_ylabel("Error")
+    error_axis.grid(True, alpha=0.25)
+
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=150)
+    plt.close(fig)
