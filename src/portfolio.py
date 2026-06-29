@@ -26,3 +26,15 @@ def validate_portfolio_inputs(
     asset_count = len(weights)
     if not np.isclose(np.sum(weights), 1.0):
         raise ValueError("Portfolio weights must sum to 1.")
+    if len(expected_returns) != asset_count or len(volatilities) != asset_count:
+        raise ValueError("weights, expected_returns, and volatilities must have equal length.")
+    if correlation_matrix.shape != (asset_count, asset_count):
+        raise ValueError("correlation_matrix must be square with one row/column per asset.")
+    if np.any(volatilities < 0):
+        raise ValueError("volatilities cannot be negative.")
+    if not np.allclose(correlation_matrix, correlation_matrix.T):
+        raise ValueError("correlation_matrix must be symmetric.")
+    if not np.allclose(np.diag(correlation_matrix), 1.0):
+        raise ValueError("correlation_matrix must have ones on the diagonal.")
+
+
