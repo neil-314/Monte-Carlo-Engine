@@ -38,3 +38,14 @@ def validate_portfolio_inputs(
         raise ValueError("correlation_matrix must have ones on the diagonal.")
 
 
+def simulate_correlated_portfolio(
+    initial_value: float,
+    weights: np.ndarray,
+    expected_returns: np.ndarray,
+    volatilities: np.ndarray,
+    correlation_matrix: np.ndarray,
+    T: float = 1.0,
+    simulations: int = 100_000,
+    seed: int | None = None,
+    asset_names: list[str] | None = None,
+) -> pd.DataFrame:
