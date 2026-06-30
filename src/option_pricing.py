@@ -256,3 +256,15 @@ def main() -> None:
 
     call_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "call", seed=7)
     put_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "put", seed=11)
+    print(format_option_report(S0, K, T, r, sigma, simulations, call_comparison, put_comparison))
+
+    convergence = convergence_analysis(
+        [100, 500, 1_000, 5_000, 10_000, 50_000, 100_000],
+        S0=S0,
+        K=K,
+        T=T,
+        r=r,
+        sigma=sigma,
+        option_type="call",
+    )
+    plot_convergence(convergence, "results/option_convergence.png")
