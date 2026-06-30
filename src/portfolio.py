@@ -72,3 +72,14 @@ def simulate_correlated_portfolio(
     correlated_shocks = independent_shocks @ cholesky_matrix.T
 
     log_returns = (
+        (expected_returns - 0.5 * volatilities**2) * T
+        + volatilities * np.sqrt(T) * correlated_shocks
+    )
+    asset_returns = np.exp(log_returns) - 1
+    portfolio_returns = asset_returns @ weights
+    portfolio_values = initial_value * (1 + portfolio_returns)
+
+    data = {
+        f"{name} Return": asset_returns[:, index]
+        for index, name in enumerate(asset_names)
+    }
