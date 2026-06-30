@@ -234,3 +234,14 @@ Volatility:  {sigma:.0%}
 Risk-Free:   {r:.0%}
 Scenarios:   {simulations:,}
 
+Monte Carlo Call:    ${call_comparison["monte_carlo_price"]:,.2f}
+Black-Scholes Call:  ${call_comparison["black_scholes_price"]:,.2f}
+Call Abs. Diff.:     ${call_comparison["absolute_difference"]:,.2f}
+Call % Error:         {call_comparison["percentage_error"]:.2%}
+
+Monte Carlo Put:     ${put_comparison["monte_carlo_price"]:,.2f}
+Black-Scholes Put:   ${put_comparison["black_scholes_price"]:,.2f}
+Put Abs. Diff.:      ${put_comparison["absolute_difference"]:,.2f}
+Put % Error:          {put_comparison["percentage_error"]:.2%}
+""".strip()
+
