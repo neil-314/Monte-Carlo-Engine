@@ -139,3 +139,14 @@ def plot_portfolio_distribution(
     plt.close()
 
 
+def format_portfolio_report(report: dict[str, float], confidence_level: float = 0.95) -> str:
+    """Format portfolio risk metrics for console output."""
+    return f"""
+PORTFOLIO MONTE CARLO RISK REPORT
+
+Initial Portfolio Value: {format_dollars(report["initial_value"])}
+
+Expected Value:          {format_dollars(report["expected_value"])}
+Expected Return:          {report["expected_return"]:.2%}
+Volatility:               {report["volatility"]:.2%}
+
