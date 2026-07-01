@@ -162,3 +162,14 @@ Median Value:            {format_dollars(report["median_value"])}
 
 
 def main() -> None:
+    initial_value = 100_000
+    weights = np.array([0.40, 0.30, 0.20, 0.10])
+    expected_returns = np.array([0.08, 0.10, 0.12, 0.06])
+    volatilities = np.array([0.20, 0.25, 0.30, 0.15])
+    correlation_matrix = np.array(
+        [
+            [1.00, 0.70, 0.55, 0.30],
+            [0.70, 1.00, 0.65, 0.25],
+            [0.55, 0.65, 1.00, 0.20],
+            [0.30, 0.25, 0.20, 1.00],
+        ]
