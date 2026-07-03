@@ -18,3 +18,14 @@ from simulation import (
     plot_terminal_distribution,
     simulate_gbm,
     terminal_price_statistics,
+)
+
+
+def run_stock_simulation() -> None:
+    S0 = 100
+    mu = 0.08
+    sigma = 0.20
+    T = 1
+    steps = 252
+    simulations = 10_000
+    target_price = 120
