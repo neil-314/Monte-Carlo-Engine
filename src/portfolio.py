@@ -60,3 +60,15 @@ def simulate_correlated_portfolio(
     weights = np.asarray(weights, dtype=float)
     expected_returns = np.asarray(expected_returns, dtype=float)
     volatilities = np.asarray(volatilities, dtype=float)
+    correlation_matrix = np.asarray(correlation_matrix, dtype=float)
+    validate_portfolio_inputs(weights, expected_returns, volatilities, correlation_matrix)
+
+    if asset_names is None:
+        asset_names = [f"Asset {index + 1}" for index in range(len(weights))]
+
+    rng = np.random.default_rng(seed)
+    independent_shocks = rng.normal(size=(simulations, len(weights)))
+    cholesky_matrix = np.linalg.cholesky(correlation_matrix)
+    correlated_shocks = independent_shocks @ cholesky_matrix.T
+
+    log_returns = (
