@@ -49,3 +49,14 @@ def simulate_correlated_portfolio(
     seed: int | None = None,
     asset_names: list[str] | None = None,
 ) -> pd.DataFrame:
+    """Simulate terminal portfolio values using correlated lognormal asset returns."""
+    if initial_value <= 0:
+        raise ValueError("initial_value must be positive.")
+    if T <= 0:
+        raise ValueError("T must be positive.")
+    if simulations <= 0:
+        raise ValueError("simulations must be positive.")
+
+    weights = np.asarray(weights, dtype=float)
+    expected_returns = np.asarray(expected_returns, dtype=float)
+    volatilities = np.asarray(volatilities, dtype=float)
