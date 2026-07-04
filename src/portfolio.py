@@ -94,3 +94,14 @@ def plot_portfolio_distribution(
     confidence_level: float = 0.95,
 ) -> None:
     """Plot portfolio returns with expected return, VaR, and CVaR markers."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    expected_return = np.mean(portfolio_returns)
+    var_return = calculate_var(portfolio_returns, confidence_level)
+    cvar_return = calculate_cvar(portfolio_returns, confidence_level)
+
+    plt.figure(figsize=(11, 6))
+    plt.hist(
+        portfolio_returns * 100,
+        bins=70,
