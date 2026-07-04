@@ -105,3 +105,15 @@ def plot_portfolio_distribution(
     plt.hist(
         portfolio_returns * 100,
         bins=70,
+        color="#72B7B2",
+        alpha=0.85,
+        edgecolor="white",
+    )
+    plt.axvline(
+        expected_return * 100,
+        color="#F58518",
+        linewidth=2,
+        label=f"Expected return: {expected_return:.2%}",
+    )
+    plt.axvline(
+        var_return * 100,
