@@ -63,3 +63,14 @@ def run_option_pricing() -> None:
     )
     plot_convergence(convergence, "results/option_convergence.png")
 
+    print(format_option_report(S0, K, T, r, sigma, simulations, call_comparison, put_comparison))
+    print()
+
+
+def run_portfolio_simulation() -> None:
+    initial_value = 100_000
+    weights = np.array([0.40, 0.30, 0.20, 0.10])
+    expected_returns = np.array([0.08, 0.10, 0.12, 0.06])
+    volatilities = np.array([0.20, 0.25, 0.30, 0.15])
+    correlation_matrix = np.array(
+        [
