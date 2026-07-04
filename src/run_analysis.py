@@ -29,3 +29,15 @@ def run_stock_simulation() -> None:
     steps = 252
     simulations = 10_000
     target_price = 120
+
+    paths = simulate_gbm(S0, mu, sigma, T, steps, simulations, seed=42)
+    terminal_prices = paths[-1]
+    terminal_stats = terminal_price_statistics(terminal_prices, S0, target_price)
+
+    plot_stock_paths(paths, "results/stock_paths.png")
+    plot_terminal_distribution(terminal_prices, "results/terminal_distribution.png")
+
+    print(format_terminal_report(terminal_stats))
+    print()
+
+
