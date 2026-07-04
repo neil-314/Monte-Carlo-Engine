@@ -83,3 +83,14 @@ def simulate_correlated_portfolio(
         f"{name} Return": asset_returns[:, index]
         for index, name in enumerate(asset_names)
     }
+    data["Portfolio Return"] = portfolio_returns
+    data["Portfolio Value"] = portfolio_values
+    return pd.DataFrame(data)
+
+
+def plot_portfolio_distribution(
+    portfolio_returns: np.ndarray,
+    output_path: str | Path,
+    confidence_level: float = 0.95,
+) -> None:
+    """Plot portfolio returns with expected return, VaR, and CVaR markers."""
