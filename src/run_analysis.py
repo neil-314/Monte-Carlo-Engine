@@ -41,3 +41,14 @@ def run_stock_simulation() -> None:
     print()
 
 
+def run_option_pricing() -> None:
+    S0 = 100
+    K = 105
+    T = 1
+    r = 0.04
+    sigma = 0.20
+    simulations = 100_000
+
+    call_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "call", seed=7)
+    put_comparison = compare_option_prices(S0, K, T, r, sigma, simulations, "put", seed=11)
+
