@@ -128,3 +128,14 @@ def plot_portfolio_distribution(
         linestyle=":",
         linewidth=2.5,
         label=f"{confidence_level:.0%} CVaR: {cvar_return:.2%}",
+    )
+    plt.title("Portfolio Return Distribution")
+    plt.xlabel("Portfolio Return (%)")
+    plt.ylabel("Frequency")
+    plt.grid(True, alpha=0.22)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+
+
