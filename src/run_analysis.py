@@ -97,3 +97,14 @@ def run_portfolio_simulation() -> None:
         initial_value=initial_value,
     )
     plot_portfolio_distribution(portfolio["Portfolio Return"].to_numpy(), "results/portfolio_distribution.png")
+
+    print(format_portfolio_report(report))
+    print()
+
+
+def main() -> None:
+    run_stock_simulation()
+    run_option_pricing()
+    run_portfolio_simulation()
+    print("Charts saved:")
+    print("- results/stock_paths.png")
