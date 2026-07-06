@@ -117,3 +117,14 @@ def plot_portfolio_distribution(
     )
     plt.axvline(
         var_return * 100,
+        color="#E45756",
+        linestyle="--",
+        linewidth=2,
+        label=f"{confidence_level:.0%} VaR: {var_return:.2%}",
+    )
+    plt.axvline(
+        cvar_return * 100,
+        color="#B279A2",
+        linestyle=":",
+        linewidth=2.5,
+        label=f"{confidence_level:.0%} CVaR: {cvar_return:.2%}",
