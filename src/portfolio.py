@@ -173,3 +173,14 @@ def main() -> None:
             [0.55, 0.65, 1.00, 0.20],
             [0.30, 0.25, 0.20, 1.00],
         ]
+    )
+
+    portfolio = simulate_correlated_portfolio(
+        initial_value=initial_value,
+        weights=weights,
+        expected_returns=expected_returns,
+        volatilities=volatilities,
+        correlation_matrix=correlation_matrix,
+        simulations=100_000,
+        seed=21,
+        asset_names=["Asset A", "Asset B", "Asset C", "Asset D"],
