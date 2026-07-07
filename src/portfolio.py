@@ -150,3 +150,15 @@ Expected Value:          {format_dollars(report["expected_value"])}
 Expected Return:          {report["expected_return"]:.2%}
 Volatility:               {report["volatility"]:.2%}
 
+Probability of Loss:      {report["probability_loss"]:.2%}
+
+{confidence_level:.0%} VaR:              {format_dollars(report["var_dollars"])}
+{confidence_level:.0%} CVaR:             {format_dollars(report["cvar_dollars"])}
+
+5th Percentile Value:    {format_dollars(report["percentile_5_value"])}
+Median Value:            {format_dollars(report["median_value"])}
+95th Percentile Value:   {format_dollars(report["percentile_95_value"])}
+""".strip()
+
+
+def main() -> None:
