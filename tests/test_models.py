@@ -24,3 +24,14 @@ def test_gbm_zero_volatility_is_deterministic() -> None:
 
 
 def test_black_scholes_put_call_parity() -> None:
+    S0 = 100
+    K = 105
+    T = 1
+    r = 0.04
+    sigma = 0.20
+
+    call = black_scholes_price(S0, K, T, r, sigma, "call")
+    put = black_scholes_price(S0, K, T, r, sigma, "put")
+    parity_value = S0 - K * np.exp(-r * T)
+
+    assert abs((call - put) - parity_value) < 1e-10
