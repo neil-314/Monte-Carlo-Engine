@@ -196,3 +196,5 @@ def main() -> None:
     print("\nSaved portfolio distribution chart to results/portfolio_distribution.png")
 
 
+if __name__ == "__main__":
+    main()
