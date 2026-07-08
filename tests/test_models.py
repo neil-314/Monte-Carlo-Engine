@@ -57,3 +57,15 @@ def test_monte_carlo_option_price_converges_near_black_scholes() -> None:
     bs_price = black_scholes_price(S0, K, T, r, sigma, "call")
 
     assert abs(mc_price - bs_price) < 0.20
+
+
+def test_var_and_cvar_use_lower_tail() -> None:
+    returns = np.array([-0.30, -0.20, -0.10, 0.05, 0.15])
+
+    var = calculate_var(returns, confidence_level=0.80)
+    cvar = calculate_cvar(returns, confidence_level=0.80)
+
+    assert np.isclose(var, -0.22)
+    assert np.isclose(cvar, -0.30)
+
+
