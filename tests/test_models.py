@@ -91,3 +91,10 @@ def test_portfolio_simulation_outputs_risk_report() -> None:
     report = portfolio_risk_report(
         portfolio["Portfolio Value"].to_numpy(),
         portfolio["Portfolio Return"].to_numpy(),
+        initial_value=100_000,
+    )
+
+    assert len(portfolio) == 5_000
+    assert report["expected_value"] > 0
+    assert report["var_return"] <= report["expected_return"]
+    assert report["cvar_return"] <= report["var_return"]
