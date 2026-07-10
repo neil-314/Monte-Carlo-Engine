@@ -86,3 +86,14 @@ def run_portfolio_simulation() -> None:
         weights=weights,
         expected_returns=expected_returns,
         volatilities=volatilities,
+        correlation_matrix=correlation_matrix,
+        simulations=100_000,
+        seed=21,
+        asset_names=["Asset A", "Asset B", "Asset C", "Asset D"],
+    )
+    report = portfolio_risk_report(
+        portfolio["Portfolio Value"].to_numpy(),
+        portfolio["Portfolio Return"].to_numpy(),
+        initial_value=initial_value,
+    )
+    plot_portfolio_distribution(portfolio["Portfolio Return"].to_numpy(), "results/portfolio_distribution.png")
