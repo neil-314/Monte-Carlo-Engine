@@ -74,3 +74,15 @@ def run_portfolio_simulation() -> None:
     volatilities = np.array([0.20, 0.25, 0.30, 0.15])
     correlation_matrix = np.array(
         [
+            [1.00, 0.70, 0.55, 0.30],
+            [0.70, 1.00, 0.65, 0.25],
+            [0.55, 0.65, 1.00, 0.20],
+            [0.30, 0.25, 0.20, 1.00],
+        ]
+    )
+
+    portfolio = simulate_correlated_portfolio(
+        initial_value=initial_value,
+        weights=weights,
+        expected_returns=expected_returns,
+        volatilities=volatilities,
