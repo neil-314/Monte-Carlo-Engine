@@ -108,3 +108,10 @@ def main() -> None:
     run_portfolio_simulation()
     print("Charts saved:")
     print("- results/stock_paths.png")
+    print("- results/terminal_distribution.png")
+    print("- results/option_convergence.png")
+    print("- results/portfolio_distribution.png")
+
+
+if __name__ == "__main__":
+    main()
