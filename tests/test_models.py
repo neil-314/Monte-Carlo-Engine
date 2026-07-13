@@ -35,3 +35,14 @@ def test_black_scholes_put_call_parity() -> None:
     parity_value = S0 - K * np.exp(-r * T)
 
     assert abs((call - put) - parity_value) < 1e-10
+
+
+def test_monte_carlo_option_price_converges_near_black_scholes() -> None:
+    S0 = 100
+    K = 105
+    T = 1
+    r = 0.04
+    sigma = 0.20
+
+    mc_price = monte_carlo_option_price(
+        S0=S0,
