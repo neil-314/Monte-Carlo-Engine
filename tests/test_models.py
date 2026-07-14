@@ -80,3 +80,14 @@ def test_portfolio_simulation_outputs_risk_report() -> None:
                 [1.00, 0.70, 0.55, 0.30],
                 [0.70, 1.00, 0.65, 0.25],
                 [0.55, 0.65, 1.00, 0.20],
+                [0.30, 0.25, 0.20, 1.00],
+            ]
+        ),
+        simulations=5_000,
+        seed=99,
+        asset_names=["Asset A", "Asset B", "Asset C", "Asset D"],
+    )
+
+    report = portfolio_risk_report(
+        portfolio["Portfolio Value"].to_numpy(),
+        portfolio["Portfolio Return"].to_numpy(),
