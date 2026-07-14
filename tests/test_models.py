@@ -46,3 +46,14 @@ def test_monte_carlo_option_price_converges_near_black_scholes() -> None:
 
     mc_price = monte_carlo_option_price(
         S0=S0,
+        K=K,
+        T=T,
+        r=r,
+        sigma=sigma,
+        simulations=200_000,
+        option_type="call",
+        seed=2026,
+    )
+    bs_price = black_scholes_price(S0, K, T, r, sigma, "call")
+
+    assert abs(mc_price - bs_price) < 0.20
