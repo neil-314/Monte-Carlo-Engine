@@ -317,3 +317,14 @@
             <h2>Option Inputs</h2>
             <div class="controls">
               <div class="control-row">
+                <label>Stock Price<input id="option-s0" type="number" value="100" min="1" step="1"></label>
+                <label>Strike<input id="option-k" type="number" value="105" min="1" step="1"></label>
+              </div>
+              <div class="control-row">
+                <label>Years<input id="option-years" type="number" value="1" min="0.1" step="0.1"></label>
+                <label>Risk-Free Rate<input id="option-r" type="number" value="4" step="0.25"></label>
+              </div>
+              <div class="control-row">
+                <label>Volatility<input id="option-sigma" type="number" value="20" min="0" step="0.5"></label>
+                <label>Simulations<input id="option-sims" type="number" value="100000" min="100" max="200000" step="1000"></label>
+              </div>
