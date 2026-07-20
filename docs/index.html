@@ -103,3 +103,14 @@
 
       .view {
         display: none;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) 1fr;
+        gap: 18px;
+        align-items: start;
