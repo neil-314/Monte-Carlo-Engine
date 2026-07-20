@@ -385,3 +385,14 @@
           let value = state;
           value = Math.imul(value ^ (value >>> 15), value | 1);
           value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+          return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function makeNormal(seed) {
+        const random = makeRandom(seed);
+        let spare = null;
+        return function normal() {
+          if (spare !== null) {
+            const value = spare;
+            spare = null;
