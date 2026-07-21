@@ -430,3 +430,14 @@
       }
 
       function percentValue(id) {
+        return Number(byId(id).value) / 100;
+      }
+
+      function currency(value, decimals = 2) {
+        const sign = value < 0 ? "-" : "";
+        return sign + "$" + Math.abs(value).toLocaleString(undefined, {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
