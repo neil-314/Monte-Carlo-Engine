@@ -418,3 +418,15 @@
         const a4 = -1.453152027;
         const a5 = 1.061405429;
         const erf = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+        return 0.5 * (1 + sign * erf);
+      }
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function numberValue(id) {
+        return Number(byId(id).value);
+      }
+
+      function percentValue(id) {
