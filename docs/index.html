@@ -441,3 +441,14 @@
         });
       }
 
+      function percent(value) {
+        return (value * 100).toFixed(2) + "%";
+      }
+
+      function mean(values) {
+        return values.reduce((sum, value) => sum + value, 0) / values.length;
+      }
+
+      function std(values) {
+        const avg = mean(values);
+        const variance = values.reduce((sum, value) => sum + (value - avg) ** 2, 0) / (values.length - 1);
