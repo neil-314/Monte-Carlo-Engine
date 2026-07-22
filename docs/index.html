@@ -486,3 +486,14 @@
         ctx.fillRect(0, 0, width, height);
         ctx.strokeStyle = "#263447";
         ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
+        ctx.fillStyle = "#9aa9ba";
+        ctx.font = "12px Inter, sans-serif";
+        if (titleX) ctx.fillText(titleX, width / 2 - 34, height - 10);
+        if (titleY) {
+          ctx.save();
+          ctx.translate(12, height / 2 + 34);
+          ctx.rotate(-Math.PI / 2);
+          ctx.fillText(titleY, 0, 0);
+          ctx.restore();
+        }
