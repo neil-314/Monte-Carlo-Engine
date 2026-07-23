@@ -554,3 +554,14 @@
           counts[index] += 1;
         });
         const maxCount = Math.max(...counts);
+        const innerWidth = width - pad.left - pad.right;
+        const innerHeight = height - pad.top - pad.bottom;
+
+        counts.forEach((count, index) => {
+          const x = pad.left + innerWidth * index / bins;
+          const barWidth = innerWidth / bins - 1;
+          const barHeight = innerHeight * count / maxCount;
+          ctx.fillStyle = options.color || "#72b7b2";
+          ctx.globalAlpha = 0.84;
+          ctx.fillRect(x, height - pad.bottom - barHeight, Math.max(1, barWidth), barHeight);
+        });
