@@ -509,3 +509,14 @@
         const minY = Math.min(...allValues);
         const maxY = Math.max(...allValues);
         const yRange = Math.max(1e-9, maxY - minY);
+        const maxX = Math.max(...series.map(path => path.length - 1));
+
+          ctx.strokeStyle = "#223044";
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+          const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+        }
