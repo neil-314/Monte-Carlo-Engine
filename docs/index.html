@@ -666,3 +666,15 @@
         for (let i = 0; i < simulations; i++) {
           const shock = normal();
           const st = params.s0 * Math.exp((params.r - 0.5 * params.sigma ** 2) * params.years + params.sigma * Math.sqrt(params.years) * shock);
+          payoffSum += type === "call" ? Math.max(st - params.k, 0) : Math.max(params.k - st, 0);
+        }
+        return Math.exp(-params.r * params.years) * payoffSum / simulations;
+      }
+
+      function blackScholes(params, type) {
+        if (params.sigma === 0) {
+          const forward = params.s0 * Math.exp(params.r * params.years);
+          const payoff = type === "call" ? Math.max(forward - params.k, 0) : Math.max(params.k - forward, 0);
+          return Math.exp(-params.r * params.years) * payoff;
+        }
+        const d1 = (Math.log(params.s0 / params.k) + (params.r + 0.5 * params.sigma ** 2) * params.years) / (params.sigma * Math.sqrt(params.years));
