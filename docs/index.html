@@ -340,3 +340,14 @@
           </section>
         </div>
       </section>
+
+      <section id="portfolio" class="view" role="tabpanel">
+        <div class="layout">
+          <aside class="panel">
+            <h2>Portfolio Inputs</h2>
+            <div class="controls">
+              <label>Initial Value<input id="portfolio-value" type="number" value="100000" min="1000" step="1000"></label>
+              <label>Simulations<input id="portfolio-sims" type="number" value="100000" min="100" max="200000" step="1000"></label>
+              <button class="primary" id="run-portfolio">Run Portfolio</button>
+            </div>
+            <div class="matrix">
