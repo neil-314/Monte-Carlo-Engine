@@ -689,3 +689,14 @@
         const n = matrix.length;
         const lower = Array.from({ length: n }, () => new Array(n).fill(0));
         for (let i = 0; i < n; i++) {
+          for (let j = 0; j <= i; j++) {
+            let sum = 0;
+            for (let k = 0; k < j; k++) sum += lower[i][k] * lower[j][k];
+            if (i === j) lower[i][j] = Math.sqrt(Math.max(matrix[i][i] - sum, 0));
+            else lower[i][j] = (matrix[i][j] - sum) / lower[j][j];
+          }
+        }
+        return lower;
+      }
+
+      function simulatePortfolio(initialValue, simulations) {
