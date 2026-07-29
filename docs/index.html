@@ -452,3 +452,15 @@
       function std(values) {
         const avg = mean(values);
         const variance = values.reduce((sum, value) => sum + (value - avg) ** 2, 0) / (values.length - 1);
+        return Math.sqrt(variance);
+      }
+
+      function quantile(values, q) {
+        const sorted = [...values].sort((a, b) => a - b);
+        const position = (sorted.length - 1) * q;
+        const lower = Math.floor(position);
+        const upper = Math.ceil(position);
+        if (lower === upper) return sorted[lower];
+        return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
+      }
+
