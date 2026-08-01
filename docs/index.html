@@ -531,3 +531,14 @@
           });
           const colors = ["#67a5ff", "#38d6c8", "#f4a261", "#b894ff"];
           ctx.strokeStyle = colors[index % colors.length];
+          ctx.globalAlpha = 0.36;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      function drawHistogram(canvasId, values, markers, options = {}) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, options.xLabel || "", "Frequency");
