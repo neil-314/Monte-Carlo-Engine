@@ -520,3 +520,14 @@
           ctx.lineTo(width - pad.right, y);
           ctx.stroke();
         }
+
+        series.forEach((path, index) => {
+          ctx.beginPath();
+          path.forEach((value, step) => {
+            const x = pad.left + (width - pad.left - pad.right) * step / maxX;
+            const y = height - pad.bottom - (height - pad.top - pad.bottom) * (value - minY) / yRange;
+            if (step === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          const colors = ["#67a5ff", "#38d6c8", "#f4a261", "#b894ff"];
+          ctx.strokeStyle = colors[index % colors.length];
