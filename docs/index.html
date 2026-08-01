@@ -497,3 +497,15 @@
           ctx.fillText(titleY, 0, 0);
           ctx.restore();
         }
+      }
+
+      function drawLineChart(canvasId, series, options = {}) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, options.xLabel || "", options.yLabel || "");
+
+        const pad = { left: 44, right: 18, top: 18, bottom: 36 };
+        const allValues = series.flat();
+        const minY = Math.min(...allValues);
+        const maxY = Math.max(...allValues);
+        const yRange = Math.max(1e-9, maxY - minY);
