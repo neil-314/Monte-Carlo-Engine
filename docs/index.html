@@ -542,3 +542,15 @@
         const canvas = byId(canvasId);
         const { ctx, width, height } = setupCanvas(canvas);
         drawFrame(ctx, width, height, options.xLabel || "", "Frequency");
+
+        const pad = { left: 44, right: 18, top: 18, bottom: 36 };
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const bins = options.bins || 48;
+        const binWidth = (max - min) / bins || 1;
+        const counts = new Array(bins).fill(0);
+        values.forEach(value => {
+          const index = Math.min(bins - 1, Math.max(0, Math.floor((value - min) / binWidth)));
+          counts[index] += 1;
+        });
+        const maxCount = Math.max(...counts);
