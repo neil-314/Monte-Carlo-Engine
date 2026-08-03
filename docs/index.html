@@ -565,3 +565,14 @@
           ctx.globalAlpha = 0.84;
           ctx.fillRect(x, height - pad.bottom - barHeight, Math.max(1, barWidth), barHeight);
         });
+        ctx.globalAlpha = 1;
+
+        markers.forEach(marker => {
+          const x = pad.left + innerWidth * (marker.value - min) / (max - min || 1);
+          ctx.strokeStyle = marker.color;
+          ctx.lineWidth = marker.width || 2;
+          ctx.setLineDash(marker.dash || []);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, height - pad.bottom);
+          ctx.stroke();
