@@ -576,3 +576,15 @@
           ctx.moveTo(x, pad.top);
           ctx.lineTo(x, height - pad.bottom);
           ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = marker.color;
+          ctx.font = "12px Inter, sans-serif";
+          ctx.fillText(marker.label, Math.min(width - 130, x + 6), pad.top + 14 + (marker.offset || 0));
+        });
+      }
+
+      function drawConvergence(canvasId, rows) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, "Simulations", "Call Price");
+
