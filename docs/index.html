@@ -599,3 +599,14 @@
         const yFor = price => height - pad.bottom - (height - pad.top - pad.bottom) * (price - minY) / (maxY - minY);
 
           ctx.strokeStyle = "#223044";
+        for (let i = 0; i <= 4; i++) {
+          const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = "#f4a261";
+        ctx.setLineDash([6, 5]);
+        ctx.lineWidth = 2;
