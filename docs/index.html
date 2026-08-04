@@ -610,3 +610,14 @@
         ctx.strokeStyle = "#f4a261";
         ctx.setLineDash([6, 5]);
         ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yFor(bs));
+        ctx.lineTo(width - pad.right, yFor(bs));
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = "#67a5ff";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        rows.forEach((row, index) => {
+          const x = xFor(row.simulations);
