@@ -588,3 +588,14 @@
         const { ctx, width, height } = setupCanvas(canvas);
         drawFrame(ctx, width, height, "Simulations", "Call Price");
 
+        const pad = { left: 54, right: 24, top: 20, bottom: 38 };
+        const prices = rows.map(row => row.mc);
+        const bs = rows[0].bs;
+        const minY = Math.min(...prices, bs) - 0.25;
+        const maxY = Math.max(...prices, bs) + 0.25;
+        const minLog = Math.log10(rows[0].simulations);
+        const maxLog = Math.log10(rows[rows.length - 1].simulations);
+        const xFor = sims => pad.left + (width - pad.left - pad.right) * (Math.log10(sims) - minLog) / (maxLog - minLog);
+        const yFor = price => height - pad.bottom - (height - pad.top - pad.bottom) * (price - minY) / (maxY - minY);
+
+          ctx.strokeStyle = "#223044";
