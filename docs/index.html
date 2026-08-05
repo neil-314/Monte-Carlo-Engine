@@ -633,3 +633,14 @@
           ctx.arc(xFor(row.simulations), yFor(row.mc), 4, 0, Math.PI * 2);
           ctx.fill();
         });
+
+        ctx.fillStyle = "#f4a261";
+        ctx.font = "12px Inter, sans-serif";
+        ctx.fillText("Black-Scholes " + currency(bs), pad.left + 8, yFor(bs) - 8);
+      }
+
+      function simulateGbm(params) {
+        const normal = makeNormal(42);
+        const dt = params.years / params.steps;
+        const terminalPrices = [];
+        const samplePaths = [];
