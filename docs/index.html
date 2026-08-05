@@ -644,3 +644,14 @@
         const dt = params.years / params.steps;
         const terminalPrices = [];
         const samplePaths = [];
+        const sampleCount = Math.min(100, params.simulations);
+        for (let sim = 0; sim < params.simulations; sim++) {
+          let price = params.s0;
+          const path = sim < sampleCount ? [price] : null;
+          for (let step = 0; step < params.steps; step++) {
+            const shock = normal();
+            const logReturn = (params.mu - 0.5 * params.sigma ** 2) * dt + params.sigma * Math.sqrt(dt) * shock;
+            price *= Math.exp(logReturn);
+            if (path) path.push(price);
+          }
+          if (path) samplePaths.push(path);
