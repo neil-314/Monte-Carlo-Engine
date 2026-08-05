@@ -621,3 +621,15 @@
         ctx.beginPath();
         rows.forEach((row, index) => {
           const x = xFor(row.simulations);
+          const y = yFor(row.mc);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        rows.forEach(row => {
+          ctx.fillStyle = "#67a5ff";
+          ctx.beginPath();
+          ctx.arc(xFor(row.simulations), yFor(row.mc), 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
