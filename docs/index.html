@@ -678,3 +678,14 @@
           return Math.exp(-params.r * params.years) * payoff;
         }
         const d1 = (Math.log(params.s0 / params.k) + (params.r + 0.5 * params.sigma ** 2) * params.years) / (params.sigma * Math.sqrt(params.years));
+        const d2 = d1 - params.sigma * Math.sqrt(params.years);
+        if (type === "call") {
+          return params.s0 * normalCdf(d1) - params.k * Math.exp(-params.r * params.years) * normalCdf(d2);
+        }
+        return params.k * Math.exp(-params.r * params.years) * normalCdf(-d2) - params.s0 * normalCdf(-d1);
+      }
+
+      function cholesky(matrix) {
+        const n = matrix.length;
+        const lower = Array.from({ length: n }, () => new Array(n).fill(0));
+        for (let i = 0; i < n; i++) {
