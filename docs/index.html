@@ -655,3 +655,14 @@
             if (path) path.push(price);
           }
           if (path) samplePaths.push(path);
+          terminalPrices.push(price);
+        }
+        return { terminalPrices, samplePaths };
+      }
+
+      function optionPrice(params, type, simulations, seed) {
+        const normal = makeNormal(seed);
+        let payoffSum = 0;
+        for (let i = 0; i < simulations; i++) {
+          const shock = normal();
+          const st = params.s0 * Math.exp((params.r - 0.5 * params.sigma ** 2) * params.years + params.sigma * Math.sqrt(params.years) * shock);
