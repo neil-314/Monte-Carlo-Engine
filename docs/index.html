@@ -723,3 +723,14 @@
           let portfolioReturn = 0;
           for (let i = 0; i < weights.length; i++) {
             const assetReturn = Math.exp((expected[i] - 0.5 * vols[i] ** 2) + vols[i] * correlated[i]) - 1;
+            portfolioReturn += assetReturn * weights[i];
+          }
+          returns.push(portfolioReturn);
+          values.push(initialValue * (1 + portfolioReturn));
+        }
+        return { returns, values };
+      }
+
+      function runStock() {
+        const params = {
+          s0: numberValue("stock-s0"),
