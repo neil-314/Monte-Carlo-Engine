@@ -700,3 +700,15 @@
       }
 
       function simulatePortfolio(initialValue, simulations) {
+        const weights = [0.40, 0.30, 0.20, 0.10];
+        const expected = [0.08, 0.10, 0.12, 0.06];
+        const vols = [0.20, 0.25, 0.30, 0.15];
+        const corr = [
+          [1.00, 0.70, 0.55, 0.30],
+          [0.70, 1.00, 0.65, 0.25],
+          [0.55, 0.65, 1.00, 0.20],
+          [0.30, 0.25, 0.20, 1.00]
+        ];
+        const lower = cholesky(corr);
+        const normal = makeNormal(21);
+        const returns = [];
