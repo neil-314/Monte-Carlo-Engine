@@ -712,3 +712,14 @@
         const lower = cholesky(corr);
         const normal = makeNormal(21);
         const returns = [];
+        const values = [];
+        for (let sim = 0; sim < simulations; sim++) {
+          const z = weights.map(() => normal());
+          const correlated = weights.map((_, i) => {
+            let value = 0;
+            for (let j = 0; j <= i; j++) value += lower[i][j] * z[j];
+            return value;
+          });
+          let portfolioReturn = 0;
+          for (let i = 0; i < weights.length; i++) {
+            const assetReturn = Math.exp((expected[i] - 0.5 * vols[i] ** 2) + vols[i] * correlated[i]) - 1;
