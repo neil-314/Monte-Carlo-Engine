@@ -734,3 +734,14 @@
       function runStock() {
         const params = {
           s0: numberValue("stock-s0"),
+          mu: percentValue("stock-mu"),
+          sigma: percentValue("stock-sigma"),
+          years: numberValue("stock-years"),
+          steps: Math.round(numberValue("stock-steps")),
+          simulations: Math.round(numberValue("stock-sims")),
+          target: numberValue("stock-target")
+        };
+        const result = simulateGbm(params);
+        const prices = result.terminalPrices;
+        const avg = mean(prices);
+        const p5 = quantile(prices, 0.05);
