@@ -757,3 +757,14 @@
         drawLineChart("stock-paths", result.samplePaths, { xLabel: "Trading Days", yLabel: "Stock Price" });
         drawHistogram("stock-hist", prices, [
           { value: avg, label: "Mean", color: "#f4a261" },
+          { value: p5, label: "5th", color: "#ff6b6b", dash: [5, 4], offset: 16 },
+          { value: p95, label: "95th", color: "#38d6c8", dash: [5, 4], offset: 32 }
+        ], { xLabel: "Terminal Price", color: "#67a5ff" });
+      }
+
+      function runOptions() {
+        const params = {
+          s0: numberValue("option-s0"),
+          k: numberValue("option-k"),
+          years: numberValue("option-years"),
+          r: percentValue("option-r"),
