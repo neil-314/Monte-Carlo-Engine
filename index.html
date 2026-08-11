@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monte Carlo Engine</title>
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --ink: #17202a;
+        --muted: #5f6b7a;
+        --line: #d9dee7;
+        --blue: #2f6fbd;
+        --teal: #1b8a8f;
+        --orange: #c66b20;
+        --red: #bd3b3b;
+        --violet: #7d5aa6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 18px 24px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .links {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      a {
+        color: var(--blue);
+        font-weight: 650;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 22px 24px 36px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+        overflow-x: auto;
+      }
+
+      .tab-button,
+      button {
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 650;
+        padding: 8px 12px;
+      }
+
+      .tab-button[aria-selected="true"],
+      button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: white;
+      }
+
+      .view {
+        display: none;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 16px;
+      }
+
+      .panel h2 {
+        margin: 0 0 14px;
+        font-size: 16px;
+      }
+
+      .controls {
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        display: grid;
+        gap: 5px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      input,
+      select {
+        width: 100%;
+        min-height: 36px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        padding: 7px 9px;
+      }
+
+      .control-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(130px, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 12px;
+        min-height: 78px;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 19px;
+      }
+
+      .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .chart-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 14px;
+      }
+
+      .chart-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 320px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 6px;
+        text-align: right;
+        font-size: 13px;
+      }
+
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+
+      .matrix {
+        margin-top: 12px;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 18px;
+      }
+
+      @media (max-width: 920px) {
+        .layout,
+        .chart-grid,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="topbar">
+        <h1>Monte Carlo Quantitative Risk & Derivatives Engine</h1>
+        <nav class="links" aria-label="Project links">
+          <a href="https://github.com/neil-314/Monte-Carlo-Engine">GitHub</a>
+          <a href="https://github.com/neil-314/Monte-Carlo-Engine#readme">README</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="tabs" role="tablist" aria-label="Simulator sections">
+        <button class="tab-button" role="tab" aria-selected="true" data-tab="stock">Stock Simulation</button>
+        <button class="tab-button" role="tab" aria-selected="false" data-tab="options">Option Pricing</button>
+        <button class="tab-button" role="tab" aria-selected="false" data-tab="portfolio">Portfolio Risk</button>
+      </div>
+
+      <section id="stock" class="view active" role="tabpanel">
+        <div class="layout">
+          <aside class="panel">
+            <h2>Stock Inputs</h2>
+            <div class="controls">
+              <label>Starting Price<input id="stock-s0" type="number" value="100" min="1" step="1"></label>
+              <div class="control-row">
+                <label>Expected Return<input id="stock-mu" type="number" value="8" step="0.5"></label>
+                <label>Volatility<input id="stock-sigma" type="number" value="20" min="0" step="0.5"></label>
+              </div>
+              <div class="control-row">
+                <label>Years<input id="stock-years" type="number" value="1" min="0.1" step="0.1"></label>
+                <label>Steps<input id="stock-steps" type="number" value="252" min="10" step="1"></label>
+              </div>
+              <div class="control-row">
+                <label>Simulations<input id="stock-sims" type="number" value="10000" min="100" max="50000" step="100"></label>
+                <label>Target Price<input id="stock-target" type="number" value="120" min="1" step="1"></label>
+              </div>
+              <button class="primary" id="run-stock">Run Simulation</button>
+            </div>
+          </aside>
+          <section>
+            <div class="metrics" id="stock-metrics"></div>
+            <div class="chart-grid">
+              <div class="chart-panel">
+                <p class="chart-title">Sample Price Paths</p>
+                <canvas id="stock-paths" width="720" height="320"></canvas>
+              </div>
+              <div class="chart-panel">
+                <p class="chart-title">Terminal Price Distribution</p>
+                <canvas id="stock-hist" width="720" height="320"></canvas>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="options" class="view" role="tabpanel">
+        <div class="layout">
+          <aside class="panel">
+            <h2>Option Inputs</h2>
+            <div class="controls">
+              <div class="control-row">
+                <label>Stock Price<input id="option-s0" type="number" value="100" min="1" step="1"></label>
+                <label>Strike<input id="option-k" type="number" value="105" min="1" step="1"></label>
+              </div>
+              <div class="control-row">
+                <label>Years<input id="option-years" type="number" value="1" min="0.1" step="0.1"></label>
+                <label>Risk-Free Rate<input id="option-r" type="number" value="4" step="0.25"></label>
+              </div>
+              <div class="control-row">
+                <label>Volatility<input id="option-sigma" type="number" value="20" min="0" step="0.5"></label>
+                <label>Simulations<input id="option-sims" type="number" value="100000" min="100" max="200000" step="1000"></label>
+              </div>
+              <button class="primary" id="run-options">Price Options</button>
+            </div>
+          </aside>
+          <section>
+            <div class="metrics" id="option-metrics"></div>
+            <div class="chart-panel">
+              <p class="chart-title">Call Price Convergence</p>
+              <canvas id="option-convergence" width="960" height="360"></canvas>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="portfolio" class="view" role="tabpanel">
+        <div class="layout">
+          <aside class="panel">
+            <h2>Portfolio Inputs</h2>
+            <div class="controls">
+              <label>Initial Value<input id="portfolio-value" type="number" value="100000" min="1000" step="1000"></label>
+              <label>Simulations<input id="portfolio-sims" type="number" value="100000" min="100" max="200000" step="1000"></label>
+              <button class="primary" id="run-portfolio">Run Portfolio</button>
+            </div>
+            <div class="matrix">
+              <table aria-label="Portfolio assumptions">
+                <thead>
+                  <tr><th>Asset</th><th>Weight</th><th>Return</th><th>Vol.</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>A</td><td>40%</td><td>8%</td><td>20%</td></tr>
+                  <tr><td>B</td><td>30%</td><td>10%</td><td>25%</td></tr>
+                  <tr><td>C</td><td>20%</td><td>12%</td><td>30%</td></tr>
+                  <tr><td>D</td><td>10%</td><td>6%</td><td>15%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </aside>
+          <section>
+            <div class="metrics" id="portfolio-metrics"></div>
+            <div class="chart-panel">
+              <p class="chart-title">Portfolio Return Distribution</p>
+              <canvas id="portfolio-hist" width="960" height="360"></canvas>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <footer>Models assume constant parameters and lognormal returns.</footer>
+    </main>
+
+    <script>
+      function makeRandom(seed) {
+        let state = seed >>> 0;
+        return function random() {
+          state += 0x6d2b79f5;
+          let value = state;
+          value = Math.imul(value ^ (value >>> 15), value | 1);
+          value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+          return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function makeNormal(seed) {
+        const random = makeRandom(seed);
+        let spare = null;
+        return function normal() {
+          if (spare !== null) {
+            const value = spare;
+            spare = null;
+            return value;
+          }
+          let u = 0;
+          let v = 0;
+          while (u === 0) u = random();
+          while (v === 0) v = random();
+          const mag = Math.sqrt(-2 * Math.log(u));
+          spare = mag * Math.sin(2 * Math.PI * v);
+          return mag * Math.cos(2 * Math.PI * v);
+        };
+      }
+
+      function normalCdf(x) {
+        const sign = x < 0 ? -1 : 1;
+        const z = Math.abs(x) / Math.sqrt(2);
+        const t = 1 / (1 + 0.3275911 * z);
+        const a1 = 0.254829592;
+        const a2 = -0.284496736;
+        const a3 = 1.421413741;
+        const a4 = -1.453152027;
+        const a5 = 1.061405429;
+        const erf = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+        return 0.5 * (1 + sign * erf);
+      }
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function numberValue(id) {
+        return Number(byId(id).value);
+      }
+
+      function percentValue(id) {
+        return Number(byId(id).value) / 100;
+      }
+
+      function currency(value, decimals = 2) {
+        const sign = value < 0 ? "-" : "";
+        return sign + "$" + Math.abs(value).toLocaleString(undefined, {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function percent(value) {
+        return (value * 100).toFixed(2) + "%";
+      }
+
+      function mean(values) {
+        return values.reduce((sum, value) => sum + value, 0) / values.length;
+      }
+
+      function std(values) {
+        const avg = mean(values);
+        const variance = values.reduce((sum, value) => sum + (value - avg) ** 2, 0) / (values.length - 1);
+        return Math.sqrt(variance);
+      }
+
+      function quantile(values, q) {
+        const sorted = [...values].sort((a, b) => a - b);
+        const position = (sorted.length - 1) * q;
+        const lower = Math.floor(position);
+        const upper = Math.ceil(position);
+        if (lower === upper) return sorted[lower];
+        return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
+      }
+
+      function setMetrics(containerId, rows) {
+        byId(containerId).innerHTML = rows.map(row => (
+          `<div class="metric"><span>${row.label}</span><strong>${row.value}</strong></div>`
+        )).join("");
+      }
+
+      function setupCanvas(canvas) {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+        canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, width: rect.width, height: rect.height };
+      }
+
+      function drawFrame(ctx, width, height, titleX, titleY) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+        ctx.strokeStyle = "#d9dee7";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
+        ctx.fillStyle = "#5f6b7a";
+        ctx.font = "12px Inter, sans-serif";
+        if (titleX) ctx.fillText(titleX, width / 2 - 34, height - 10);
+        if (titleY) {
+          ctx.save();
+          ctx.translate(12, height / 2 + 34);
+          ctx.rotate(-Math.PI / 2);
+          ctx.fillText(titleY, 0, 0);
+          ctx.restore();
+        }
+      }
+
+      function drawLineChart(canvasId, series, options = {}) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, options.xLabel || "", options.yLabel || "");
+
+        const pad = { left: 44, right: 18, top: 18, bottom: 36 };
+        const allValues = series.flat();
+        const minY = Math.min(...allValues);
+        const maxY = Math.max(...allValues);
+        const yRange = Math.max(1e-9, maxY - minY);
+        const maxX = Math.max(...series.map(path => path.length - 1));
+
+        ctx.strokeStyle = "#edf0f4";
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+          const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+        }
+
+        series.forEach((path, index) => {
+          ctx.beginPath();
+          path.forEach((value, step) => {
+            const x = pad.left + (width - pad.left - pad.right) * step / maxX;
+            const y = height - pad.bottom - (height - pad.top - pad.bottom) * (value - minY) / yRange;
+            if (step === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          const colors = ["#2f6fbd", "#1b8a8f", "#c66b20", "#7d5aa6"];
+          ctx.strokeStyle = colors[index % colors.length];
+          ctx.globalAlpha = 0.36;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      function drawHistogram(canvasId, values, markers, options = {}) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, options.xLabel || "", "Frequency");
+
+        const pad = { left: 44, right: 18, top: 18, bottom: 36 };
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const bins = options.bins || 48;
+        const binWidth = (max - min) / bins || 1;
+        const counts = new Array(bins).fill(0);
+        values.forEach(value => {
+          const index = Math.min(bins - 1, Math.max(0, Math.floor((value - min) / binWidth)));
+          counts[index] += 1;
+        });
+        const maxCount = Math.max(...counts);
+        const innerWidth = width - pad.left - pad.right;
+        const innerHeight = height - pad.top - pad.bottom;
+
+        counts.forEach((count, index) => {
+          const x = pad.left + innerWidth * index / bins;
+          const barWidth = innerWidth / bins - 1;
+          const barHeight = innerHeight * count / maxCount;
+          ctx.fillStyle = options.color || "#72b7b2";
+          ctx.globalAlpha = 0.84;
+          ctx.fillRect(x, height - pad.bottom - barHeight, Math.max(1, barWidth), barHeight);
+        });
+        ctx.globalAlpha = 1;
+
+        markers.forEach(marker => {
+          const x = pad.left + innerWidth * (marker.value - min) / (max - min || 1);
+          ctx.strokeStyle = marker.color;
+          ctx.lineWidth = marker.width || 2;
+          ctx.setLineDash(marker.dash || []);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, height - pad.bottom);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = marker.color;
+          ctx.font = "12px Inter, sans-serif";
+          ctx.fillText(marker.label, Math.min(width - 130, x + 6), pad.top + 14 + (marker.offset || 0));
+        });
+      }
+
+      function drawConvergence(canvasId, rows) {
+        const canvas = byId(canvasId);
+        const { ctx, width, height } = setupCanvas(canvas);
+        drawFrame(ctx, width, height, "Simulations", "Call Price");
+
+        const pad = { left: 54, right: 24, top: 20, bottom: 38 };
+        const prices = rows.map(row => row.mc);
+        const bs = rows[0].bs;
+        const minY = Math.min(...prices, bs) - 0.25;
+        const maxY = Math.max(...prices, bs) + 0.25;
+        const minLog = Math.log10(rows[0].simulations);
+        const maxLog = Math.log10(rows[rows.length - 1].simulations);
+        const xFor = sims => pad.left + (width - pad.left - pad.right) * (Math.log10(sims) - minLog) / (maxLog - minLog);
+        const yFor = price => height - pad.bottom - (height - pad.top - pad.bottom) * (price - minY) / (maxY - minY);
+
+        ctx.strokeStyle = "#edf0f4";
+        for (let i = 0; i <= 4; i++) {
+          const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = "#c66b20";
+        ctx.setLineDash([6, 5]);
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yFor(bs));
+        ctx.lineTo(width - pad.right, yFor(bs));
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = "#2f6fbd";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        rows.forEach((row, index) => {
+          const x = xFor(row.simulations);
+          const y = yFor(row.mc);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        rows.forEach(row => {
+          ctx.fillStyle = "#2f6fbd";
+          ctx.beginPath();
+          ctx.arc(xFor(row.simulations), yFor(row.mc), 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.fillStyle = "#c66b20";
+        ctx.font = "12px Inter, sans-serif";
+        ctx.fillText("Black-Scholes " + currency(bs), pad.left + 8, yFor(bs) - 8);
+      }
+
+      function simulateGbm(params) {
+        const normal = makeNormal(42);
+        const dt = params.years / params.steps;
+        const terminalPrices = [];
+        const samplePaths = [];
+        const sampleCount = Math.min(100, params.simulations);
+        for (let sim = 0; sim < params.simulations; sim++) {
+          let price = params.s0;
+          const path = sim < sampleCount ? [price] : null;
+          for (let step = 0; step < params.steps; step++) {
+            const shock = normal();
+            const logReturn = (params.mu - 0.5 * params.sigma ** 2) * dt + params.sigma * Math.sqrt(dt) * shock;
+            price *= Math.exp(logReturn);
+            if (path) path.push(price);
+          }
+          if (path) samplePaths.push(path);
+          terminalPrices.push(price);
+        }
+        return { terminalPrices, samplePaths };
+      }
+
+      function optionPrice(params, type, simulations, seed) {
+        const normal = makeNormal(seed);
+        let payoffSum = 0;
+        for (let i = 0; i < simulations; i++) {
+          const shock = normal();
+          const st = params.s0 * Math.exp((params.r - 0.5 * params.sigma ** 2) * params.years + params.sigma * Math.sqrt(params.years) * shock);
+          payoffSum += type === "call" ? Math.max(st - params.k, 0) : Math.max(params.k - st, 0);
+        }
+        return Math.exp(-params.r * params.years) * payoffSum / simulations;
+      }
+
+      function blackScholes(params, type) {
+        if (params.sigma === 0) {
+          const forward = params.s0 * Math.exp(params.r * params.years);
+          const payoff = type === "call" ? Math.max(forward - params.k, 0) : Math.max(params.k - forward, 0);
+          return Math.exp(-params.r * params.years) * payoff;
+        }
+        const d1 = (Math.log(params.s0 / params.k) + (params.r + 0.5 * params.sigma ** 2) * params.years) / (params.sigma * Math.sqrt(params.years));
+        const d2 = d1 - params.sigma * Math.sqrt(params.years);
+        if (type === "call") {
+          return params.s0 * normalCdf(d1) - params.k * Math.exp(-params.r * params.years) * normalCdf(d2);
+        }
+        return params.k * Math.exp(-params.r * params.years) * normalCdf(-d2) - params.s0 * normalCdf(-d1);
+      }
+
+      function cholesky(matrix) {
+        const n = matrix.length;
+        const lower = Array.from({ length: n }, () => new Array(n).fill(0));
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j <= i; j++) {
+            let sum = 0;
+            for (let k = 0; k < j; k++) sum += lower[i][k] * lower[j][k];
+            if (i === j) lower[i][j] = Math.sqrt(Math.max(matrix[i][i] - sum, 0));
+            else lower[i][j] = (matrix[i][j] - sum) / lower[j][j];
+          }
+        }
+        return lower;
+      }
+
+      function simulatePortfolio(initialValue, simulations) {
+        const weights = [0.40, 0.30, 0.20, 0.10];
+        const expected = [0.08, 0.10, 0.12, 0.06];
+        const vols = [0.20, 0.25, 0.30, 0.15];
+        const corr = [
+          [1.00, 0.70, 0.55, 0.30],
+          [0.70, 1.00, 0.65, 0.25],
+          [0.55, 0.65, 1.00, 0.20],
+          [0.30, 0.25, 0.20, 1.00]
+        ];
+        const lower = cholesky(corr);
+        const normal = makeNormal(21);
+        const returns = [];
+        const values = [];
+        for (let sim = 0; sim < simulations; sim++) {
+          const z = weights.map(() => normal());
+          const correlated = weights.map((_, i) => {
+            let value = 0;
+            for (let j = 0; j <= i; j++) value += lower[i][j] * z[j];
+            return value;
+          });
+          let portfolioReturn = 0;
+          for (let i = 0; i < weights.length; i++) {
+            const assetReturn = Math.exp((expected[i] - 0.5 * vols[i] ** 2) + vols[i] * correlated[i]) - 1;
+            portfolioReturn += assetReturn * weights[i];
+          }
+          returns.push(portfolioReturn);
+          values.push(initialValue * (1 + portfolioReturn));
+        }
+        return { returns, values };
+      }
+
+      function runStock() {
+        const params = {
+          s0: numberValue("stock-s0"),
+          mu: percentValue("stock-mu"),
+          sigma: percentValue("stock-sigma"),
+          years: numberValue("stock-years"),
+          steps: Math.round(numberValue("stock-steps")),
+          simulations: Math.round(numberValue("stock-sims")),
+          target: numberValue("stock-target")
+        };
+        const result = simulateGbm(params);
+        const prices = result.terminalPrices;
+        const avg = mean(prices);
+        const p5 = quantile(prices, 0.05);
+        const p95 = quantile(prices, 0.95);
+        setMetrics("stock-metrics", [
+          { label: "Expected Terminal Price", value: currency(avg) },
+          { label: "Median Terminal Price", value: currency(quantile(prices, 0.50)) },
+          { label: "5th / 95th Percentile", value: currency(p5) + " / " + currency(p95) },
+          { label: "Probability of Loss", value: percent(prices.filter(value => value < params.s0).length / prices.length) },
+          { label: "Terminal Std. Dev.", value: currency(std(prices)) },
+          { label: "Probability Above Target", value: percent(prices.filter(value => value > params.target).length / prices.length) }
+        ]);
+        drawLineChart("stock-paths", result.samplePaths, { xLabel: "Trading Days", yLabel: "Stock Price" });
+        drawHistogram("stock-hist", prices, [
+          { value: avg, label: "Mean", color: "#c66b20" },
+          { value: p5, label: "5th", color: "#bd3b3b", dash: [5, 4], offset: 16 },
+          { value: p95, label: "95th", color: "#1b8a8f", dash: [5, 4], offset: 32 }
+        ], { xLabel: "Terminal Price", color: "#2f6fbd" });
+      }
+
+      function runOptions() {
+        const params = {
+          s0: numberValue("option-s0"),
+          k: numberValue("option-k"),
+          years: numberValue("option-years"),
+          r: percentValue("option-r"),
+          sigma: percentValue("option-sigma")
+        };
+        const simulations = Math.round(numberValue("option-sims"));
+        const mcCall = optionPrice(params, "call", simulations, 7);
+        const mcPut = optionPrice(params, "put", simulations, 11);
+        const bsCall = blackScholes(params, "call");
+        const bsPut = blackScholes(params, "put");
+        setMetrics("option-metrics", [
+          { label: "Monte Carlo Call", value: currency(mcCall) },
+          { label: "Black-Scholes Call", value: currency(bsCall) },
+          { label: "Call Error", value: percent(Math.abs(mcCall - bsCall) / bsCall) },
+          { label: "Monte Carlo Put", value: currency(mcPut) },
+          { label: "Black-Scholes Put", value: currency(bsPut) },
+          { label: "Put Error", value: percent(Math.abs(mcPut - bsPut) / bsPut) }
+        ]);
+        const counts = [100, 500, 1000, 5000, 10000, 50000, Math.min(100000, simulations)];
+        const uniqueCounts = [...new Set(counts)].sort((a, b) => a - b);
+        const rows = uniqueCounts.map((count, index) => ({
+          simulations: count,
+          mc: optionPrice(params, "call", count, 123 + index),
+          bs: bsCall
+        }));
+        drawConvergence("option-convergence", rows);
+      }
+
+      function runPortfolio() {
+        const initialValue = numberValue("portfolio-value");
+        const simulations = Math.round(numberValue("portfolio-sims"));
+        const result = simulatePortfolio(initialValue, simulations);
+        const returns = result.returns;
+        const values = result.values;
+        const expectedReturn = mean(returns);
+        const varReturn = quantile(returns, 0.05);
+        const cvarReturn = mean(returns.filter(value => value <= varReturn));
+        setMetrics("portfolio-metrics", [
+          { label: "Expected Value", value: currency(mean(values), 0) },
+          { label: "Expected Return", value: percent(expectedReturn) },
+          { label: "Volatility", value: percent(std(returns)) },
+          { label: "Probability of Loss", value: percent(returns.filter(value => value < 0).length / returns.length) },
+          { label: "95% VaR", value: currency(initialValue * varReturn, 0) },
+          { label: "95% CVaR", value: currency(initialValue * cvarReturn, 0) }
+        ]);
+        drawHistogram("portfolio-hist", returns.map(value => value * 100), [
+          { value: expectedReturn * 100, label: "Expected", color: "#c66b20" },
+          { value: varReturn * 100, label: "VaR", color: "#bd3b3b", dash: [5, 4], offset: 16 },
+          { value: cvarReturn * 100, label: "CVaR", color: "#7d5aa6", dash: [2, 4], width: 2.5, offset: 32 }
+        ], { xLabel: "Portfolio Return (%)", color: "#1b8a8f" });
+      }
+
+      document.querySelectorAll(".tab-button").forEach(button => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".tab-button").forEach(item => item.setAttribute("aria-selected", "false"));
+          document.querySelectorAll(".view").forEach(view => view.classList.remove("active"));
+          button.setAttribute("aria-selected", "true");
+          byId(button.dataset.tab).classList.add("active");
+        });
+      });
+
+      byId("run-stock").addEventListener("click", runStock);
+      byId("run-options").addEventListener("click", runOptions);
+      byId("run-portfolio").addEventListener("click", runPortfolio);
+      window.addEventListener("resize", () => {
+        runStock();
+        runOptions();
+        runPortfolio();
+      });
+
+      runStock();
+      runOptions();
+      runPortfolio();
+    </script>
+  </body>
+</html>
