@@ -22,7 +22,7 @@ The engine uses Monte Carlo simulation to model uncertain future stock prices, e
 - Correlated asset returns using Cholesky decomposition
 - Value at Risk and CVaR / Expected Shortfall
 - Portfolio loss probability and return distribution
-- Browser-based simulator in `docs/index.html`
+- Dark-mode browser simulator in `docs/index.html`
 - Basic automated tests
 - Jupyter notebook for interactive analysis
 
@@ -53,9 +53,6 @@ monte-carlo-engine/
 |   |-- terminal_distribution.png
 |   |-- option_convergence.png
 |   `-- portfolio_distribution.png
-`-- .github/
-    `-- workflows/
-        `-- pages.yml
 ```
 
 ## Installation
@@ -109,22 +106,26 @@ Open the notebook:
 .\.venv\Scripts\jupyter.exe notebook notebooks\analysis.ipynb
 ```
 
-## GitHub Pages
+## Live Simulator
 
 The interactive simulator lives in `docs/index.html`.
 
-After pushing the repo to GitHub, enable Pages if needed:
-
-1. Open the repository settings.
-2. Go to Pages.
-3. Set the source to GitHub Actions.
-4. Wait for the `Deploy static simulator` workflow to finish.
-
-The live URL will be:
+The live simulator is published from the `gh-pages` branch:
 
 ```text
 https://neil-314.github.io/Monte-Carlo-Engine/
 ```
+
+If the link returns `404`, check these repository settings:
+
+1. Open the repository settings.
+2. Go to Pages.
+3. Set the source to `Deploy from a branch`.
+4. Choose branch `gh-pages` and folder `/root`.
+5. Save and wait a minute or two.
+
+For a public LinkedIn demo, the GitHub repository should also be public.
+
 
 ## Methodology
 

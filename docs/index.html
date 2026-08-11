@@ -6,16 +6,17 @@
     <title>Monte Carlo Engine</title>
     <style>
       :root {
-        --bg: #f6f7f9;
-        --panel: #ffffff;
-        --ink: #17202a;
-        --muted: #5f6b7a;
-        --line: #d9dee7;
-        --blue: #2f6fbd;
-        --teal: #1b8a8f;
-        --orange: #c66b20;
-        --red: #bd3b3b;
-        --violet: #7d5aa6;
+        --bg: #0b1018;
+        --panel: #121a26;
+        --panel-2: #172232;
+        --ink: #edf3fb;
+        --muted: #9aa9ba;
+        --line: #263447;
+        --blue: #67a5ff;
+        --teal: #38d6c8;
+        --orange: #f4a261;
+        --red: #ff6b6b;
+        --violet: #b894ff;
       }
 
       * {
@@ -31,7 +32,8 @@
 
       header {
         border-bottom: 1px solid var(--line);
-        background: var(--panel);
+        background: rgba(18, 26, 38, 0.96);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
       }
 
       .topbar {
@@ -96,7 +98,7 @@
       button.primary {
         border-color: var(--blue);
         background: var(--blue);
-        color: white;
+        color: #07101d;
       }
 
       .view {
@@ -119,6 +121,7 @@
         border-radius: 8px;
         background: var(--panel);
         padding: 16px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
       }
 
       .panel h2 {
@@ -145,7 +148,7 @@
         min-height: 36px;
         border: 1px solid var(--line);
         border-radius: 6px;
-        background: #fff;
+        background: #0e1520;
         color: var(--ink);
         font: inherit;
         padding: 7px 9px;
@@ -196,6 +199,7 @@
         border-radius: 8px;
         background: var(--panel);
         padding: 14px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
       }
 
       .chart-title {
@@ -478,12 +482,12 @@
 
       function drawFrame(ctx, width, height, titleX, titleY) {
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#121a26";
         ctx.fillRect(0, 0, width, height);
-        ctx.strokeStyle = "#d9dee7";
+        ctx.strokeStyle = "#263447";
         ctx.lineWidth = 1;
         ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
-        ctx.fillStyle = "#5f6b7a";
+        ctx.fillStyle = "#9aa9ba";
         ctx.font = "12px Inter, sans-serif";
         if (titleX) ctx.fillText(titleX, width / 2 - 34, height - 10);
         if (titleY) {
@@ -507,7 +511,7 @@
         const yRange = Math.max(1e-9, maxY - minY);
         const maxX = Math.max(...series.map(path => path.length - 1));
 
-        ctx.strokeStyle = "#edf0f4";
+          ctx.strokeStyle = "#223044";
         ctx.lineWidth = 1;
         for (let i = 0; i <= 4; i++) {
           const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
@@ -525,7 +529,7 @@
             if (step === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
           });
-          const colors = ["#2f6fbd", "#1b8a8f", "#c66b20", "#7d5aa6"];
+          const colors = ["#67a5ff", "#38d6c8", "#f4a261", "#b894ff"];
           ctx.strokeStyle = colors[index % colors.length];
           ctx.globalAlpha = 0.36;
           ctx.lineWidth = 1;
@@ -594,7 +598,7 @@
         const xFor = sims => pad.left + (width - pad.left - pad.right) * (Math.log10(sims) - minLog) / (maxLog - minLog);
         const yFor = price => height - pad.bottom - (height - pad.top - pad.bottom) * (price - minY) / (maxY - minY);
 
-        ctx.strokeStyle = "#edf0f4";
+          ctx.strokeStyle = "#223044";
         for (let i = 0; i <= 4; i++) {
           const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
           ctx.beginPath();
@@ -603,7 +607,7 @@
           ctx.stroke();
         }
 
-        ctx.strokeStyle = "#c66b20";
+        ctx.strokeStyle = "#f4a261";
         ctx.setLineDash([6, 5]);
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -612,7 +616,7 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        ctx.strokeStyle = "#2f6fbd";
+        ctx.strokeStyle = "#67a5ff";
         ctx.lineWidth = 2;
         ctx.beginPath();
         rows.forEach((row, index) => {
@@ -624,13 +628,13 @@
         ctx.stroke();
 
         rows.forEach(row => {
-          ctx.fillStyle = "#2f6fbd";
+          ctx.fillStyle = "#67a5ff";
           ctx.beginPath();
           ctx.arc(xFor(row.simulations), yFor(row.mc), 4, 0, Math.PI * 2);
           ctx.fill();
         });
 
-        ctx.fillStyle = "#c66b20";
+        ctx.fillStyle = "#f4a261";
         ctx.font = "12px Inter, sans-serif";
         ctx.fillText("Black-Scholes " + currency(bs), pad.left + 8, yFor(bs) - 8);
       }
@@ -752,10 +756,10 @@
         ]);
         drawLineChart("stock-paths", result.samplePaths, { xLabel: "Trading Days", yLabel: "Stock Price" });
         drawHistogram("stock-hist", prices, [
-          { value: avg, label: "Mean", color: "#c66b20" },
-          { value: p5, label: "5th", color: "#bd3b3b", dash: [5, 4], offset: 16 },
-          { value: p95, label: "95th", color: "#1b8a8f", dash: [5, 4], offset: 32 }
-        ], { xLabel: "Terminal Price", color: "#2f6fbd" });
+          { value: avg, label: "Mean", color: "#f4a261" },
+          { value: p5, label: "5th", color: "#ff6b6b", dash: [5, 4], offset: 16 },
+          { value: p95, label: "95th", color: "#38d6c8", dash: [5, 4], offset: 32 }
+        ], { xLabel: "Terminal Price", color: "#67a5ff" });
       }
 
       function runOptions() {
@@ -807,10 +811,10 @@
           { label: "95% CVaR", value: currency(initialValue * cvarReturn, 0) }
         ]);
         drawHistogram("portfolio-hist", returns.map(value => value * 100), [
-          { value: expectedReturn * 100, label: "Expected", color: "#c66b20" },
-          { value: varReturn * 100, label: "VaR", color: "#bd3b3b", dash: [5, 4], offset: 16 },
-          { value: cvarReturn * 100, label: "CVaR", color: "#7d5aa6", dash: [2, 4], width: 2.5, offset: 32 }
-        ], { xLabel: "Portfolio Return (%)", color: "#1b8a8f" });
+          { value: expectedReturn * 100, label: "Expected", color: "#f4a261" },
+          { value: varReturn * 100, label: "VaR", color: "#ff6b6b", dash: [5, 4], offset: 16 },
+          { value: cvarReturn * 100, label: "CVaR", color: "#b894ff", dash: [2, 4], width: 2.5, offset: 32 }
+        ], { xLabel: "Portfolio Return (%)", color: "#38d6c8" });
       }
 
       document.querySelectorAll(".tab-button").forEach(button => {
