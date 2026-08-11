@@ -824,3 +824,14 @@
           button.setAttribute("aria-selected", "true");
           byId(button.dataset.tab).classList.add("active");
         });
+      });
+
+      byId("run-stock").addEventListener("click", runStock);
+      byId("run-options").addEventListener("click", runOptions);
+      byId("run-portfolio").addEventListener("click", runPortfolio);
+      window.addEventListener("resize", () => {
+        runStock();
+        runOptions();
+        runPortfolio();
+      });
+
