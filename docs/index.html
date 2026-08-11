@@ -745,3 +745,15 @@
         const prices = result.terminalPrices;
         const avg = mean(prices);
         const p5 = quantile(prices, 0.05);
+        const p95 = quantile(prices, 0.95);
+        setMetrics("stock-metrics", [
+          { label: "Expected Terminal Price", value: currency(avg) },
+          { label: "Median Terminal Price", value: currency(quantile(prices, 0.50)) },
+          { label: "5th / 95th Percentile", value: currency(p5) + " / " + currency(p95) },
+          { label: "Probability of Loss", value: percent(prices.filter(value => value < params.s0).length / prices.length) },
+          { label: "Terminal Std. Dev.", value: currency(std(prices)) },
+          { label: "Probability Above Target", value: percent(prices.filter(value => value > params.target).length / prices.length) }
+        ]);
+        drawLineChart("stock-paths", result.samplePaths, { xLabel: "Trading Days", yLabel: "Stock Price" });
+        drawHistogram("stock-hist", prices, [
+          { value: avg, label: "Mean", color: "#f4a261" },
