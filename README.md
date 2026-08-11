@@ -1,0 +1,269 @@
+# Monte Carlo Quantitative Risk & Derivatives Engine
+
+[Live simulator](https://neil-314.github.io/Monte-Carlo-Engine/) | [Source code](https://github.com/neil-314/Monte-Carlo-Engine)
+
+A Python-based quantitative finance project for simulating equity prices, pricing European options, and analyzing portfolio risk using Monte Carlo methods.
+
+This project is intentionally built without live market data. The inputs are hard-coded so the model assumptions, formulas, and outputs are easy to inspect and explain.
+
+## Overview
+
+The engine uses Monte Carlo simulation to model uncertain future stock prices, estimate European option values, validate those estimates against the Black-Scholes analytical model, and simulate a correlated multi-asset portfolio. It includes both a Python analysis engine and a static browser simulator served through GitHub Pages.
+
+## Features
+
+- Geometric Brownian Motion stock-price simulation
+- 10,000+ single-stock price paths
+- Terminal price statistics and distribution analysis
+- European call and put option pricing
+- Black-Scholes analytical validation
+- Monte Carlo convergence analysis
+- Multi-asset portfolio simulation
+- Correlated asset returns using Cholesky decomposition
+- Value at Risk and CVaR / Expected Shortfall
+- Portfolio loss probability and return distribution
+- Browser-based simulator in `docs/index.html`
+- Basic automated tests
+- Jupyter notebook for interactive analysis
+
+## Project Structure
+
+```text
+monte-carlo-engine/
+|-- README.md
+|-- requirements.txt
+|-- main.py
+|-- docs/
+|   |-- index.html
+|   `-- .nojekyll
+|-- src/
+|   |-- __init__.py
+|   |-- simulation.py
+|   |-- option_pricing.py
+|   |-- portfolio.py
+|   |-- risk_metrics.py
+|   `-- run_analysis.py
+|-- notebooks/
+|   `-- analysis.ipynb
+|-- tests/
+|   |-- conftest.py
+|   `-- test_models.py
+|-- results/
+|   |-- stock_paths.png
+|   |-- terminal_distribution.png
+|   |-- option_convergence.png
+|   `-- portfolio_distribution.png
+`-- .github/
+    `-- workflows/
+        `-- pages.yml
+```
+
+## Installation
+
+On Windows, if `python` opens the Microsoft Store, use the Python launcher:
+
+```powershell
+py -3.10 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+On macOS or Linux:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+
+Generate all reports and charts:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+Run individual modules:
+
+```powershell
+.\.venv\Scripts\python.exe src\simulation.py
+.\.venv\Scripts\python.exe src\option_pricing.py
+.\.venv\Scripts\python.exe src\portfolio.py
+```
+
+Open the local browser simulator:
+
+```powershell
+start docs\index.html
+```
+
+Run tests:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest
+```
+
+Open the notebook:
+
+```powershell
+.\.venv\Scripts\jupyter.exe notebook notebooks\analysis.ipynb
+```
+
+## GitHub Pages
+
+The interactive simulator lives in `docs/index.html`.
+
+After pushing the repo to GitHub, enable Pages if needed:
+
+1. Open the repository settings.
+2. Go to Pages.
+3. Set the source to GitHub Actions.
+4. Wait for the `Deploy static simulator` workflow to finish.
+
+The live URL will be:
+
+```text
+https://neil-314.github.io/Monte-Carlo-Engine/
+```
+
+## Methodology
+
+### Geometric Brownian Motion
+
+Stock paths are simulated with:
+
+```text
+dS = mu S dt + sigma S dW
+```
+
+In practical terms, `mu` controls expected growth, `sigma` controls volatility, `dt` is the time step, and `dW` is a random shock. The implementation uses the lognormal GBM solution so simulated stock prices remain positive.
+
+### Monte Carlo Option Pricing
+
+European options are priced by simulating terminal stock prices under the risk-neutral drift `r`, calculating option payoffs, averaging those payoffs, and discounting the result back to today.
+
+```text
+Call payoff = max(S(T) - K, 0)
+Put payoff  = max(K - S(T), 0)
+```
+
+### Black-Scholes Validation
+
+The project compares Monte Carlo prices against the analytical Black-Scholes formula. As the number of simulations increases, the Monte Carlo estimate generally converges toward the Black-Scholes price.
+
+### Correlated Portfolio Simulation
+
+Portfolio assets are not treated as independent. The simulation uses a correlation matrix and Cholesky decomposition to transform independent random shocks into correlated shocks before generating asset returns.
+
+### VaR and CVaR
+
+Value at Risk estimates a lower-tail loss threshold. CVaR, also called Expected Shortfall, estimates the average result within that lower tail.
+
+## Results
+
+### Stock Price Paths
+
+![Monte Carlo stock paths](results/stock_paths.png)
+
+### Terminal Price Distribution
+
+![Terminal stock price distribution](results/terminal_distribution.png)
+
+Example output:
+
+```text
+MONTE CARLO RESULTS
+
+Starting Price:          $100.00
+Expected Terminal Price: $108.53
+Median Terminal Price:   $106.27
+Terminal Std. Dev.:      $21.99
+
+5th Percentile:          $76.23
+95th Percentile:         $147.92
+
+Probability of Loss:      38.03%
+Probability S(T) > $120: 27.74%
+```
+
+### Option Pricing
+
+```text
+EUROPEAN OPTION PRICING
+
+Stock Price: $100.00
+Strike:      $105.00
+Expiration:  1 year
+Volatility:  20%
+Risk-Free:   4%
+Scenarios:   100,000
+
+Monte Carlo Call:    $7.53
+Black-Scholes Call:  $7.57
+Call Abs. Diff.:     $0.04
+Call % Error:         0.50%
+
+Monte Carlo Put:     $8.46
+Black-Scholes Put:   $8.45
+Put Abs. Diff.:      $0.01
+Put % Error:          0.07%
+```
+
+### Convergence Analysis
+
+![Monte Carlo option convergence](results/option_convergence.png)
+
+### Portfolio Risk
+
+![Portfolio return distribution](results/portfolio_distribution.png)
+
+Example output:
+
+```text
+PORTFOLIO MONTE CARLO RISK REPORT
+
+Initial Portfolio Value: $100,000
+
+Expected Value:          $109,612
+Expected Return:          9.61%
+Volatility:               21.43%
+
+Probability of Loss:      35.58%
+
+95% VaR:              -$21,376
+95% CVaR:             -$27,120
+
+5th Percentile Value:    $78,624
+Median Value:            $107,427
+95th Percentile Value:   $148,041
+```
+
+## Tests
+
+The test suite checks core model behavior:
+
+- Zero-volatility GBM follows a deterministic exponential path
+- Black-Scholes call and put prices satisfy put-call parity
+- Monte Carlo option pricing is close to Black-Scholes within a tolerance
+- VaR and CVaR use the lower tail of the return distribution
+- Portfolio simulation produces a usable risk report
+
+## Limitations
+
+- GBM assumes constant drift and constant volatility
+- Log returns are assumed normally distributed
+- The model does not include jumps, liquidity shocks, or volatility clustering
+- No transaction costs, taxes, or slippage are modeled
+- The risk-free rate is assumed constant
+- Correlations are assumed fixed and may not persist in real markets
+- VaR gives a threshold, but it does not fully describe the size of losses beyond that threshold
+
+## Future Improvements
+
+- Historical market data calibration
+- Implied volatility inputs
+- Stochastic volatility models
+- Jump-diffusion models
+- Variance reduction techniques
+- Scenario analysis and stress testing
+- Interactive dashboard with persistent scenarios
