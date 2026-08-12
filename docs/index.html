@@ -790,3 +790,15 @@
           mc: optionPrice(params, "call", count, 123 + index),
           bs: bsCall
         }));
+        drawConvergence("option-convergence", rows);
+      }
+
+      function runPortfolio() {
+        const initialValue = numberValue("portfolio-value");
+        const simulations = Math.round(numberValue("portfolio-sims"));
+        const result = simulatePortfolio(initialValue, simulations);
+        const returns = result.returns;
+        const values = result.values;
+        const expectedReturn = mean(returns);
+        const varReturn = quantile(returns, 0.05);
+        const cvarReturn = mean(returns.filter(value => value <= varReturn));
