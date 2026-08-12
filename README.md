@@ -15,3 +15,14 @@ The engine uses Monte Carlo simulation to model uncertain future stock prices, e
 - Geometric Brownian Motion stock-price simulation
 - 10,000+ single-stock price paths
 - Terminal price statistics and distribution analysis
+- European call and put option pricing
+- Black-Scholes analytical validation
+- Monte Carlo convergence analysis
+- Multi-asset portfolio simulation
+- Correlated asset returns using Cholesky decomposition
+- Value at Risk and CVaR / Expected Shortfall
+- Portfolio loss probability and return distribution
+- Dark-mode browser simulator in `docs/index.html`
+- Basic automated tests
+- Jupyter notebook for interactive analysis
+
