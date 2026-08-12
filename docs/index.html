@@ -779,3 +779,14 @@
           { label: "Monte Carlo Call", value: currency(mcCall) },
           { label: "Black-Scholes Call", value: currency(bsCall) },
           { label: "Call Error", value: percent(Math.abs(mcCall - bsCall) / bsCall) },
+          { label: "Monte Carlo Put", value: currency(mcPut) },
+          { label: "Black-Scholes Put", value: currency(bsPut) },
+          { label: "Put Error", value: percent(Math.abs(mcPut - bsPut) / bsPut) }
+        ]);
+        const counts = [100, 500, 1000, 5000, 10000, 50000, Math.min(100000, simulations)];
+        const uniqueCounts = [...new Set(counts)].sort((a, b) => a - b);
+        const rows = uniqueCounts.map((count, index) => ({
+          simulations: count,
+          mc: optionPrice(params, "call", count, 123 + index),
+          bs: bsCall
+        }));
