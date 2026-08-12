@@ -26,3 +26,15 @@ The engine uses Monte Carlo simulation to model uncertain future stock prices, e
 - Basic automated tests
 - Jupyter notebook for interactive analysis
 
+## Project Structure
+
+```text
+monte-carlo-engine/
+|-- README.md
+|-- requirements.txt
+|-- main.py
+|-- docs/
+|   |-- index.html
+|   `-- .nojekyll
+|-- src/
+|   |-- __init__.py
