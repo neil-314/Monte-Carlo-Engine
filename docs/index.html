@@ -802,3 +802,14 @@
         const expectedReturn = mean(returns);
         const varReturn = quantile(returns, 0.05);
         const cvarReturn = mean(returns.filter(value => value <= varReturn));
+        setMetrics("portfolio-metrics", [
+          { label: "Expected Value", value: currency(mean(values), 0) },
+          { label: "Expected Return", value: percent(expectedReturn) },
+          { label: "Volatility", value: percent(std(returns)) },
+          { label: "Probability of Loss", value: percent(returns.filter(value => value < 0).length / returns.length) },
+          { label: "95% VaR", value: currency(initialValue * varReturn, 0) },
+          { label: "95% CVaR", value: currency(initialValue * cvarReturn, 0) }
+        ]);
+        drawHistogram("portfolio-hist", returns.map(value => value * 100), [
+          { value: expectedReturn * 100, label: "Expected", color: "#f4a261" },
+          { value: varReturn * 100, label: "VaR", color: "#ff6b6b", dash: [5, 4], offset: 16 },
