@@ -38,3 +38,14 @@ monte-carlo-engine/
 |   `-- .nojekyll
 |-- src/
 |   |-- __init__.py
+|   |-- simulation.py
+|   |-- option_pricing.py
+|   |-- portfolio.py
+|   |-- risk_metrics.py
+|   `-- run_analysis.py
+|-- notebooks/
+|   `-- analysis.ipynb
+|-- tests/
+|   |-- conftest.py
+|   `-- test_models.py
+|-- results/
