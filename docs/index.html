@@ -768,3 +768,14 @@
           k: numberValue("option-k"),
           years: numberValue("option-years"),
           r: percentValue("option-r"),
+          sigma: percentValue("option-sigma")
+        };
+        const simulations = Math.round(numberValue("option-sims"));
+        const mcCall = optionPrice(params, "call", simulations, 7);
+        const mcPut = optionPrice(params, "put", simulations, 11);
+        const bsCall = blackScholes(params, "call");
+        const bsPut = blackScholes(params, "put");
+        setMetrics("option-metrics", [
+          { label: "Monte Carlo Call", value: currency(mcCall) },
+          { label: "Black-Scholes Call", value: currency(bsCall) },
+          { label: "Call Error", value: percent(Math.abs(mcCall - bsCall) / bsCall) },
