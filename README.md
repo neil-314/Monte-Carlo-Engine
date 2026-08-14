@@ -4,3 +4,14 @@
 
 A Python-based quantitative finance project for simulating equity prices, pricing European options, and analyzing portfolio risk using Monte Carlo methods.
 
+This project is intentionally built without live market data. The inputs are hard-coded so the model assumptions, formulas, and outputs are easy to inspect and explain.
+
+## Overview
+
+The engine uses Monte Carlo simulation to model uncertain future stock prices, estimate European option values, validate those estimates against the Black-Scholes analytical model, and simulate a correlated multi-asset portfolio. It includes both a Python analysis engine and a static browser simulator served through GitHub Pages.
+
+## Features
+
+- Geometric Brownian Motion stock-price simulation
+- 10,000+ single-stock price paths
+- Terminal price statistics and distribution analysis
