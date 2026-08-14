@@ -83,3 +83,14 @@ Generate all reports and charts:
 Run individual modules:
 
 ```powershell
+.\.venv\Scripts\python.exe src\simulation.py
+.\.venv\Scripts\python.exe src\option_pricing.py
+.\.venv\Scripts\python.exe src\portfolio.py
+```
+
+Open the local browser simulator:
+
+```powershell
+start docs\index.html
+```
+
