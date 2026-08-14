@@ -60,3 +60,14 @@ monte-carlo-engine/
 On Windows, if `python` opens the Microsoft Store, use the Python launcher:
 
 ```powershell
+py -3.10 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+On macOS or Linux:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
