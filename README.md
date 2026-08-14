@@ -71,3 +71,15 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+## Usage
+
+Generate all reports and charts:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+Run individual modules:
+
+```powershell
