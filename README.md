@@ -94,3 +94,14 @@ Open the local browser simulator:
 start docs\index.html
 ```
 
+Run tests:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest
+```
+
+Open the notebook:
+
+```powershell
+.\.venv\Scripts\jupyter.exe notebook notebooks\analysis.ipynb
+```
