@@ -49,3 +49,14 @@ monte-carlo-engine/
 |   |-- conftest.py
 |   `-- test_models.py
 |-- results/
+|   |-- stock_paths.png
+|   |-- terminal_distribution.png
+|   |-- option_convergence.png
+|   `-- portfolio_distribution.png
+```
+
+## Installation
+
+On Windows, if `python` opens the Microsoft Store, use the Python launcher:
+
+```powershell
