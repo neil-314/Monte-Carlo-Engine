@@ -116,3 +116,15 @@ The live simulator is published from the `gh-pages` branch:
 https://neil-314.github.io/Monte-Carlo-Engine/
 ```
 
+If the link returns `404`, check these repository settings:
+
+1. Open the repository settings.
+2. Go to Pages.
+3. Set the source to `Deploy from a branch`.
+4. Choose branch `gh-pages` and folder `/root`.
+5. Save and wait a minute or two.
+
+For a public LinkedIn demo, the GitHub repository should also be public.
+
+
+## Methodology
