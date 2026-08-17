@@ -105,3 +105,14 @@ Open the notebook:
 ```powershell
 .\.venv\Scripts\jupyter.exe notebook notebooks\analysis.ipynb
 ```
+
+## Live Simulator
+
+The interactive simulator lives in `docs/index.html`.
+
+The live simulator is published from the `gh-pages` branch:
+
+```text
+https://neil-314.github.io/Monte-Carlo-Engine/
+```
+
