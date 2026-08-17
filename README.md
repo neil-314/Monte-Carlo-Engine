@@ -128,3 +128,14 @@ For a public LinkedIn demo, the GitHub repository should also be public.
 
 
 ## Methodology
+
+### Geometric Brownian Motion
+
+Stock paths are simulated with:
+
+```text
+dS = mu S dt + sigma S dW
+```
+
+In practical terms, `mu` controls expected growth, `sigma` controls volatility, `dt` is the time step, and `dW` is a random shock. The implementation uses the lognormal GBM solution so simulated stock prices remain positive.
+
