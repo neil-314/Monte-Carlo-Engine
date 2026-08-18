@@ -150,3 +150,15 @@ Put payoff  = max(K - S(T), 0)
 
 ### Black-Scholes Validation
 
+The project compares Monte Carlo prices against the analytical Black-Scholes formula. As the number of simulations increases, the Monte Carlo estimate generally converges toward the Black-Scholes price.
+
+### Correlated Portfolio Simulation
+
+Portfolio assets are not treated as independent. The simulation uses a correlation matrix and Cholesky decomposition to transform independent random shocks into correlated shocks before generating asset returns.
+
+### VaR and CVaR
+
+Value at Risk estimates a lower-tail loss threshold. CVaR, also called Expected Shortfall, estimates the average result within that lower tail.
+
+## Results
+
