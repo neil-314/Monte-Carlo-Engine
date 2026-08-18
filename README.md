@@ -173,3 +173,14 @@ Value at Risk estimates a lower-tail loss threshold. CVaR, also called Expected 
 Example output:
 
 ```text
+MONTE CARLO RESULTS
+
+Starting Price:          $100.00
+Expected Terminal Price: $108.53
+Median Terminal Price:   $106.27
+Terminal Std. Dev.:      $21.99
+
+5th Percentile:          $76.23
+95th Percentile:         $147.92
+
+Probability of Loss:      38.03%
