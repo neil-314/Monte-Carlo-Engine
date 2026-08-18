@@ -162,3 +162,14 @@ Value at Risk estimates a lower-tail loss threshold. CVaR, also called Expected 
 
 ## Results
 
+### Stock Price Paths
+
+![Monte Carlo stock paths](results/stock_paths.png)
+
+### Terminal Price Distribution
+
+![Terminal stock price distribution](results/terminal_distribution.png)
+
+Example output:
+
+```text
