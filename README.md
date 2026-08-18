@@ -139,3 +139,14 @@ dS = mu S dt + sigma S dW
 
 In practical terms, `mu` controls expected growth, `sigma` controls volatility, `dt` is the time step, and `dW` is a random shock. The implementation uses the lognormal GBM solution so simulated stock prices remain positive.
 
+### Monte Carlo Option Pricing
+
+European options are priced by simulating terminal stock prices under the risk-neutral drift `r`, calculating option payoffs, averaging those payoffs, and discounting the result back to today.
+
+```text
+Call payoff = max(S(T) - K, 0)
+Put payoff  = max(K - S(T), 0)
+```
+
+### Black-Scholes Validation
+
