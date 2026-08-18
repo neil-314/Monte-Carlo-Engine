@@ -184,3 +184,14 @@ Terminal Std. Dev.:      $21.99
 95th Percentile:         $147.92
 
 Probability of Loss:      38.03%
+Probability S(T) > $120: 27.74%
+```
+
+### Option Pricing
+
+```text
+EUROPEAN OPTION PRICING
+
+Stock Price: $100.00
+Strike:      $105.00
+Expiration:  1 year
