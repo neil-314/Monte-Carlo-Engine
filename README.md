@@ -229,3 +229,14 @@ Expected Value:          $109,612
 Expected Return:          9.61%
 Volatility:               21.43%
 
+Probability of Loss:      35.58%
+
+95% VaR:              -$21,376
+95% CVaR:             -$27,120
+
+5th Percentile Value:    $78,624
+Median Value:            $107,427
+95th Percentile Value:   $148,041
+```
+
+## Tests
