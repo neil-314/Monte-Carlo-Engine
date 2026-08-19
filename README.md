@@ -195,3 +195,15 @@ EUROPEAN OPTION PRICING
 Stock Price: $100.00
 Strike:      $105.00
 Expiration:  1 year
+Volatility:  20%
+Risk-Free:   4%
+Scenarios:   100,000
+
+Monte Carlo Call:    $7.53
+Black-Scholes Call:  $7.57
+Call Abs. Diff.:     $0.04
+Call % Error:         0.50%
+
+Monte Carlo Put:     $8.46
+Black-Scholes Put:   $8.45
+Put Abs. Diff.:      $0.01
