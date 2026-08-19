@@ -240,3 +240,15 @@ Median Value:            $107,427
 ```
 
 ## Tests
+
+The test suite checks core model behavior:
+
+- Zero-volatility GBM follows a deterministic exponential path
+- Black-Scholes call and put prices satisfy put-call parity
+- Monte Carlo option pricing is close to Black-Scholes within a tolerance
+- VaR and CVaR use the lower tail of the return distribution
+- Portfolio simulation produces a usable risk report
+
+## Limitations
+
+- GBM assumes constant drift and constant volatility
