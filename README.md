@@ -218,3 +218,14 @@ Put % Error:          0.07%
 
 ![Portfolio return distribution](results/portfolio_distribution.png)
 
+Example output:
+
+```text
+PORTFOLIO MONTE CARLO RISK REPORT
+
+Initial Portfolio Value: $100,000
+
+Expected Value:          $109,612
+Expected Return:          9.61%
+Volatility:               21.43%
+
