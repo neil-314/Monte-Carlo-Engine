@@ -207,3 +207,14 @@ Call % Error:         0.50%
 Monte Carlo Put:     $8.46
 Black-Scholes Put:   $8.45
 Put Abs. Diff.:      $0.01
+Put % Error:          0.07%
+```
+
+### Convergence Analysis
+
+![Monte Carlo option convergence](results/option_convergence.png)
+
+### Portfolio Risk
+
+![Portfolio return distribution](results/portfolio_distribution.png)
+
