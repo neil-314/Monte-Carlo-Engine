@@ -4,3 +4,7 @@
   "python.testing.pytestArgs": ["tests"],
   "files.exclude": {
     "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.venv": true
+  }
+}
