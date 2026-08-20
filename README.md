@@ -263,3 +263,8 @@ The test suite checks core model behavior:
 
 - Historical market data calibration
 - Implied volatility inputs
+- Stochastic volatility models
+- Jump-diffusion models
+- Variance reduction techniques
+- Scenario analysis and stress testing
+- Interactive dashboard with persistent scenarios
