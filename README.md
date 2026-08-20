@@ -252,3 +252,14 @@ The test suite checks core model behavior:
 ## Limitations
 
 - GBM assumes constant drift and constant volatility
+- Log returns are assumed normally distributed
+- The model does not include jumps, liquidity shocks, or volatility clustering
+- No transaction costs, taxes, or slippage are modeled
+- The risk-free rate is assumed constant
+- Correlations are assumed fixed and may not persist in real markets
+- VaR gives a threshold, but it does not fully describe the size of losses beyond that threshold
+
+## Future Improvements
+
+- Historical market data calibration
+- Implied volatility inputs
